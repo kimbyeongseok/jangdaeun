@@ -93,18 +93,11 @@ nav .active {
 }
 
 .content {
-  padding: 159px 0 0;
+  padding: 138px 0 0;
   background: #ECC730;
 }
 
 .content .back-btn {
-  padding: 0 24px 8px;
-  font-size: 12px;
-  font-weight: 400;
-  color: #111;
-}
-
-.content .back-btn-btm {
   padding: 32px 24px 20px;
   font-size: 12px;
   font-weight: 400;
@@ -219,13 +212,6 @@ nav .active {
   margin-block-end: 0;
 }
 
-.back-btn {
-  margin-bottom: 1.5rem;
-  cursor: pointer;
-  color: #9b7e2f;
-  font-weight: bold;
-  display: inline-block;
-}
 
 footer .top {
   background: #F2D975;
@@ -319,7 +305,7 @@ footer .btm {
   }
 
   .content {
-    padding: 16px 28px 16px;
+    padding: 48px 28px 16px;
   }
 
   .page-wrapper {
@@ -374,11 +360,6 @@ footer .btm {
   }
 
   .content .back-btn {
-    padding: 0;
-    margin: 0 0 48px 0;
-  }
-
-  .content .back-btn-btm {
     padding: 0;
     margin: 48px 0 0 0;
   }
