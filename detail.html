@@ -158,7 +158,7 @@
       backBtn.innerHTML = `&lt; Show all ${subnav}`;
       backBtn.addEventListener('click', () => {
         localStorage.setItem('scrollToId', id);
-        const url = new URL('/index.html', window.location.origin);
+        const url = new URL('./index.html', window.location.origin);
         url.searchParams.set('nav', nav);
         url.searchParams.set('subnav', subnav);
         url.searchParams.set('id', id);
