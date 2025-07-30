@@ -5,7 +5,7 @@
 a {
   text-decoration: none;
   color: #111;
-  cursor: default;
+  cursor: pointer;
 }
 
 body {
@@ -149,6 +149,24 @@ nav .active {
   border-right: 1px solid #C5A62A;
   border-bottom: 1px solid #C5A62A;
   padding: 0 0 48px;
+}
+
+.carousel-container {
+  overflow: hidden;
+  position: relative;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.3s ease;
+  will-change: transform;
+}
+
+.carousel-track img {
+  flex-shrink: 0;
+  width: 100%;
+  object-fit: contain;
+  max-height: 70vh;
 }
 
 .slider {
