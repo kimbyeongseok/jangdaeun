@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Work Detail</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <header>
+    <a href="/jangdaeun/index.html">Jang da eun</a>
+  </header>
+  <nav>
+    <a class="tab" data-tab="art">Art</a>
+    <a class="tab" data-tab="text">Text</a>
+    <a class="tab" data-tab="cv" href="/jangdaeun/index.html?nav=cv">CV</a>
+    <a class="tab" data-tab="contact" href="/jangdaeun/index.html?nav=contact">Contact</a>
+  </nav>
+  <div class="page-wrapper">
+    <div class="subnav" id="subnavContainer">
+      <a class="subtab" data-subtab="works">Works</a>
+      <a class="subtab" data-subtab="drawing">Drawing</a>
+      <a class="subtab" data-subtab="statement">Statement</a>
+      <a class="subtab" data-subtab="text">Text</a>
+    </div>
+    <div class="content-area">
+      <div class="content">
+        <div class="back-btn" onclick="window.history.back()">&lt; Show all works</div>
+        <div class="detail">
+          <img id="detailImage" class="main-image" src="" alt="detail" loading="lazy" />
+          <div class="slider" id="previewSlider"></div>
+          <div id="detailText"></div>
+        </div>
+        <div class="back-btn-btm" onclick="window.history.back()">&lt; Show all works</div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="top"></div>
+    <div class="btm">© 2025 Jang Da Eun - All Rights Reserved</div>
+  </footer>
+  <script type="module">
+    import { contents } from './data.js';
+
+    // nav/subnav 탭 클릭 시 index.html에서 해당 콘텐츠 보이도록 이동
+    document.querySelectorAll('.tab, .subtab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const navAttr = tab.classList.contains('tab')
+          ? tab.dataset.tab
+          : params.get('nav'); // subtab 클릭 시 현재 nav 유지
+
+        const subnavAttr = tab.classList.contains('subtab')
+          ? tab.dataset.subtab
+          : null; // nav 클릭 시 subnav는 null
+
+        const url = new URL('/jangdaeun/index.html', window.location.origin);
+        url.searchParams.set('nav', navAttr);
+
+        if (subnavAttr) {
+          url.searchParams.set('subnav', subnavAttr);
+        }
+
+        window.location.href = url.toString();
+      });
+    });
+
+
+
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    const nav = params.get('nav');
+    const subnav = params.get('subnav');
+
+    // 탭 활성화
+    if (nav) {
+      const navTab = document.querySelector(`.tab[data-tab="${nav}"]`);
+      if (navTab) navTab.classList.add('active');
+    }
+
+    if (subnav) {
+      const subTab = document.querySelector(`.subtab[data-subtab="${subnav}"]`);
+      if (subTab) subTab.classList.add('active');
+    }
+
+    // ✅ subtab 필터링: nav에 따라 관련 subtab만 보여줌
+    const subnavMap = {
+      art: ['works', 'drawing'],
+      text: ['statement', 'text']
+    };
+
+    const allowedSubtabs = subnavMap[nav] || [];
+    document.querySelectorAll('.subtab').forEach(tab => {
+      const type = tab.getAttribute('data-subtab');
+      if (allowedSubtabs.includes(type)) {
+        tab.style.display = 'inline-block';
+      } else {
+        tab.style.display = 'none';
+      }
+    });
+
+    // 콘텐츠 표시
+    const detail = contents.find(item => item.id === id);
+
+    const detailImage = document.getElementById('detailImage');
+    const detailText = document.getElementById('detailText');
+    const previewSlider = document.getElementById('previewSlider');
+
+
+    if (detail) {
+      // 텍스트 설정
+      detailText.innerHTML = `
+    <h3>${detail.title}</h3>
+    ${detail.subtitle ? `<p><strong>${detail.subtitle}</strong></p>` : ""}
+    <p>${detail.body}</p>
+  `;
+
+      // ✅ 이미지가 존재할 경우에만 이미지 영역 보여주기
+      if (detail.images && detail.images.length > 0) {
+        detailImage.src = detail.images[0];
+        detailImage.style.display = 'block'; // 보이게
+
+        previewSlider.innerHTML = detail.images.map((src, index) => `
+      <img src="${src}" loading="lazy" data-index="${index}" class="${index === 0 ? 'active' : ''}" />
+    `).join('');
+
+        // 슬라이더 클릭 이벤트 등록
+        const sliderImages = previewSlider.querySelectorAll('img');
+        sliderImages.forEach(img => {
+          img.addEventListener('click', () => {
+            detailImage.src = img.src;
+            sliderImages.forEach(el => el.classList.remove('active'));
+            img.classList.add('active');
+          });
+        });
+      } else {
+        // 이미지가 없을 경우 이미지 영역 자체 숨기기
+        detailImage.style.display = 'none';
+        previewSlider.innerHTML = ''; // 썸네일 영역도 제거
+      }
+    }
+
+
+    const backBtn = document.querySelector('.back-btn');
+    if (backBtn && nav && subnav && id) {
+      backBtn.addEventListener('click', () => {
+        // 현재 스크롤 위치 저장
+        localStorage.setItem('scrollToId', id);
+
+        const url = new URL('/jangdaeun/index.html', window.location.origin);
+        url.searchParams.set('nav', nav);
+        url.searchParams.set('subnav', subnav);
+        url.searchParams.set('id', id); // 콘텐츠 ID도 넘김
+        window.location.href = url.toString();
+      });
+    }
+
+    // 이미지 스와이프 기능 추가
+    let currentImageIndex = 0;
+
+    function updateImageByIndex(index) {
+      if (!detail || !detail.images || index < 0 || index >= detail.images.length) return;
+      currentImageIndex = index;
+      detailImage.src = detail.images[index];
+
+      // slider도 연동
+      const sliderImages = previewSlider.querySelectorAll('img');
+      sliderImages.forEach((img, idx) => {
+        img.classList.toggle('active', idx === index);
+      });
+    }
+
+    // ✅ 터치/마우스 이벤트 등록
+    let startX = 0;
+    let isDragging = false;
+
+    function onStart(x) {
+      startX = x;
+      isDragging = true;
+    }
+
+    function onMove(x) {
+      if (!isDragging) return;
+    }
+
+    function onEnd(x) {
+      if (!isDragging) return;
+      const deltaX = x - startX;
+      isDragging = false;
+
+      if (Math.abs(deltaX) > 50) {
+        if (deltaX < 0 && currentImageIndex < detail.images.length - 1) {
+          updateImageByIndex(currentImageIndex + 1); // 다음 이미지
+        } else if (deltaX > 0 && currentImageIndex > 0) {
+          updateImageByIndex(currentImageIndex - 1); // 이전 이미지
+        }
+      }
+    }
+
+    // 모바일 터치 이벤트
+    detailImage.addEventListener('touchstart', e => onStart(e.touches[0].clientX));
+    detailImage.addEventListener('touchmove', e => onMove(e.touches[0].clientX));
+    detailImage.addEventListener('touchend', e => onEnd(e.changedTouches[0].clientX));
+
+    // 데스크탑 마우스 이벤트
+    detailImage.addEventListener('mousedown', e => onStart(e.clientX));
+    document.addEventListener('mousemove', e => onMove(e.clientX));
+    document.addEventListener('mouseup', e => onEnd(e.clientX));
+
+  </script>
+</body>
+
+</html>

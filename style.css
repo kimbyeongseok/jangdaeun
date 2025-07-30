@@ -1,0 +1,394 @@
+* {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: #111;
+  cursor: default;
+}
+
+body {
+  font-family: 'Lucida Grande', sans-serif;
+  margin: 0;
+  background: #FFEFAF;
+}
+
+header,
+nav,
+.subnav {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  z-index: 1000;
+}
+
+header {
+  top: 0;
+  height: 57px;
+  padding: 10px 24px 15px;
+  background: #FFEFAF;
+}
+
+header a {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+nav {
+  top: 57px;
+  display: flex;
+  gap: 0.7rem;
+  padding: 0px 24px;
+  font-weight: 400;
+  font-size: 12px;
+  background: #FFEFAF;
+  margin-top: -1px;
+}
+
+nav .tab {
+  cursor: pointer;
+  position: relative;
+  padding-bottom: 0.25rem;
+  padding: 8px 8px;
+}
+
+nav .active {
+  background-color: #ECC730;
+  padding: 8px 8px;
+}
+
+.subnav {
+  top: 86px;
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 24px 1.3rem;
+  font-size: 12px;
+  background: #F2D975
+}
+
+.subnav .subtab {
+  cursor: pointer;
+  position: relative;
+  padding: 0rem 0.5rem;
+}
+
+.subnav .active {
+  font-weight: 600;
+}
+
+.subnav .active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -8px;
+  width: 100%;
+  height: 2px;
+  background: #ECC730;
+}
+
+.page {
+  padding: 163px 24px 72px;
+  background: #ECC730;
+}
+
+.content {
+  padding: 159px 0 0;
+  background: #ECC730;
+}
+
+.content .back-btn {
+  padding: 0 24px 8px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #111;
+}
+
+.content .back-btn-btm {
+  padding: 32px 24px 20px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #111;
+}
+
+.content-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 0;
+}
+
+.thumbnail {
+  cursor: pointer;
+  border-top: 1px solid #fff;
+  border-left: 1px solid #fff;
+  border-right: 1px solid #C5A62A;
+  border-bottom: 1px solid #C5A62A;
+  background: #E0E0E0;
+  padding: 0 0 48px;
+}
+
+.thumbnail img {
+  width: 100%;
+  border: 1px solid #e0d7c4;
+  display: block;
+}
+
+.thumbnail p {
+  margin: 28px 24px 0px;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.thumbnail h1 {
+  margin: 12px 24px 0px;
+  font-size: 12px;
+  font-weight: 500;
+  text-align: left;
+  line-height: 20px;
+  color: #8b8b8b;
+}
+
+.detail {
+  background: #E0E0E0;
+  border-top: 1px solid #fff;
+  border-left: 1px solid #fff;
+  border-right: 1px solid #C5A62A;
+  border-bottom: 1px solid #C5A62A;
+  padding: 0 0 48px;
+}
+
+.slider {
+  display: flex;
+  justify-content: center;
+  /* 가로 가운데 정렬 */
+  gap: 0;
+  overflow-x: auto;
+  border-bottom: 1px solid #fff;
+}
+
+.slider::-webkit-scrollbar {
+  display: none;
+}
+
+.slider img {
+  height: 40px;
+  cursor: pointer;
+  object-fit: cover;
+  border: 0px solid transparent;
+  /* 기본 border 없앰 */
+}
+
+.slider img.active {
+  border: 1px solid #fff;
+  /* ✅ 선택된 항목 효과 */
+}
+
+.main-image {
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+  margin: 0 auto;
+  border: 0;
+}
+
+#detailImage {
+  display: none;
+  /* JS에서 조건 충족 시에만 보여줌 */
+}
+
+
+.detail h3 {
+  padding: 32px 24px 12px;
+  font-size: 12px;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+.detail p strong {
+  font-weight: 400;
+  color: #8B8B8B;
+}
+
+.detail p {
+  padding: 0px 24px 16px;
+  line-height: 1.6;
+  font-size: 12px;
+  font-weight: 400;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+.back-btn {
+  margin-bottom: 1.5rem;
+  cursor: pointer;
+  color: #9b7e2f;
+  font-weight: bold;
+  display: inline-block;
+}
+
+footer .top {
+  background: #F2D975;
+  height: 48px;
+}
+
+footer .btm {
+  background: #fdf1b6;
+  text-align: left;
+  font-size: 10px;
+  padding: 0 24px;
+  color: #8b8b8b;
+  margin: 52px 0 14px;
+}
+
+/*********** ✅ PC 전용 레이아웃 *************/
+
+@media screen and (min-width: 1024px) {
+
+  body {
+    max-width: 1280px;
+    margin: 0px auto;
+    display: block;
+    background-color: #F7F9FA;
+  }
+
+  header,
+  nav,
+  .subnav {
+    left: 0;
+    right: 0;
+    max-width: 1280px;
+    margin: 0px auto;
+  }
+
+  header a {
+    font-size: 28px;
+  }
+
+
+  .layout {
+    display: flex;
+    align-items: flex-start;
+  }
+
+
+  .subnav {
+    position: fixed;
+    top: 102px;
+    /* header + nav 높이만큼 아래 */
+    flex-direction: column;
+    gap: 0px;
+    z-index: 10;
+    margin: 0px auto;
+    padding: 1rem 28px 1.3rem;
+  }
+
+  .subnav .subtab {
+    padding: 12px 0;
+    background: transparent;
+    border-bottom: 1px solid #FFEFAF;
+    width: 148px;
+  }
+
+  .subnav .active::after {
+    display: none;
+  }
+
+  /* 예외 처리로 subnav 위치 */
+  #artSubnav,
+  #textSubnav {
+    margin-top: 0px;
+    padding-left: 28px;
+  }
+
+  .content-area {
+    margin: 0 28px 0 200px;
+    /* subnav 너비 + 여백만큼 우측으로 밀기 */
+    flex: 1;
+    z-index: 11;
+  }
+
+  .page,
+  .content {
+    margin-top: 120px;
+  }
+
+  .page {
+    padding: 48px 28px 80px;
+    /* header + nav + subnav 고려 */
+  }
+
+  .content {
+    padding: 16px 28px 16px;
+  }
+
+  .page-wrapper {
+    display: flex;
+    align-items: flex-start;
+    background-color: #F2D975;
+  }
+
+  .content-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .thumbnail img {
+    height: auto;
+    max-height: 360px;
+    object-fit: cover;
+  }
+
+  .detail {
+    display: flex;
+    flex-direction: column;
+    padding: 0 0 40px;
+  }
+
+  .main-image {
+    width: 60%;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  #detailText {
+    flex: 1;
+  }
+
+  .detail h3 {
+    font-size: 16px;
+    padding: 40px 48px 12px;
+  }
+
+  .detail p {
+    padding: 0 48px 40px;
+  }
+
+  .slider {
+    justify-content: center;
+    padding: 0px 24px;
+  }
+
+  .slider img {
+    height: 48px;
+  }
+
+  .content .back-btn {
+    padding: 0;
+    margin: 0 0 48px 0;
+  }
+
+  .content .back-btn-btm {
+    padding: 0;
+    margin: 48px 0 0 0;
+  }
+footer .top {
+  height: 32px;
+  margin-top: -1px;
+}
+  footer .btm {
+    font-size: 12px;
+    padding: 52px 24px 14px;
+    margin: 0;
+  }
+}

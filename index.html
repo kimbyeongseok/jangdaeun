@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jang Da Eun</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <header>
+    <a href="index.html">Jang da eun</a>
+  </header>
+
+  <nav>
+    <div class="tab active" data-tab="art">Art</div>
+    <div class="tab" data-tab="text">Text</div>
+    <div class="tab" data-tab="cv">CV</div>
+    <div class="tab" data-tab="contact">Contact</div>
+  </nav>
+
+  <div class="page-wrapper">
+    <div class="subnav" id="artSubnav">
+      <div class="subtab active" data-subtab="works">Works</div>
+      <div class="subtab" data-subtab="drawing">Drawing</div>
+    </div>
+
+    <!-- subnav: TEXT -->
+    <div class="subnav" id="textSubnav" style="display: none;">
+      <div class="subtab active" data-subtab="statement">Statement</div>
+      <div class="subtab" data-subtab="text">Text</div>
+    </div>
+    <div class="content-area">
+      <!-- Page: ART -->
+      <div class="page" id="artPage">
+        <div id="works" class="content-list"></div>
+        <div id="drawing" class="content-list" style="display:none"></div>
+      </div>
+
+      <!-- Page: TEXT -->
+      <div class="page" id="textPage" style="display: none;">
+        <div id="statement" class="content-list"></div>
+        <div id="text" class="content-list" style="display:none"></div>
+      </div>
+      
+      <div class="page" id="cvPage" style="display: none;">
+        <h1>CV</h1>
+        <p>이력서 정보가 여기에 들어갑니다.</p>
+      </div>
+
+      <div class="page" id="contactPage" style="display: none;">
+        <h1>Contact</h1>
+        <p>연락처 정보가 여기에 들어갑니다.</p>
+      </div>
+
+    </div>
+
+
+  </div>
+
+
+
+  <footer>
+    <div class="top"></div>
+    <div class="btm">© 2025 Jang Da Eun - All Rights Reserved</div>
+  </footer>
+  <script type="module" src="main.js"></script>
+</body>
+
+</html>
