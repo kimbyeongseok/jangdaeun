@@ -28,7 +28,7 @@ function renderContent(nav, subnav) {
 
   container.style.display = 'grid';
   container.innerHTML = filtered.map(item => `
-  <div class="thumbnail" id="thumb-${item.id}" onclick="location.href='/detail.html?id=${item.id}&nav=${item.nav}&subnav=${item.subnav}'">
+  <div class="thumbnail" id="thumb-${item.id}" onclick="location.href='./detail.html?id=${item.id}&nav=${item.nav}&subnav=${item.subnav}'">
     ${item.img ? `<img src="${item.img}" loading="lazy" alt="${item.title}" />` : ''}
     <p>${item.title}</p>
     ${item.subtitle ? `<h1>${item.subtitle}</h1>` : ''}

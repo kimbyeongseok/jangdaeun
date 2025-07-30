@@ -30,13 +30,13 @@
 
 <body>
   <header>
-    <a href="/index.html">Jang da eun</a>
+    <a href="./index.html">Jang da eun</a>
   </header>
   <nav>
     <a class="tab" data-tab="art">Art</a>
     <a class="tab" data-tab="text">Text</a>
-    <a class="tab" data-tab="cv" href="/index.html?nav=cv">CV</a>
-    <a class="tab" data-tab="contact" href="/index.html?nav=contact">Contact</a>
+    <a class="tab" data-tab="cv" href="./index.html?nav=cv">CV</a>
+    <a class="tab" data-tab="contact" href="./index.html?nav=contact">Contact</a>
   </nav>
   <div class="page-wrapper">
     <div class="subnav" id="subnavContainer">
@@ -203,7 +203,7 @@
         const navAttr = tab.classList.contains('tab') ? tab.dataset.tab : params.get('nav');
         const subnavAttr = tab.classList.contains('subtab') ? tab.dataset.subtab : null;
 
-        const url = new URL('/index.html', window.location.origin);
+        const url = new URL('./index.html', window.location.origin);
         url.searchParams.set('nav', navAttr);
         if (subnavAttr) url.searchParams.set('subnav', subnavAttr);
 
