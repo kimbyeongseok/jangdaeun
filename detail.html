@@ -11,6 +11,8 @@
     .carousel-container {
       overflow: hidden;
       position: relative;
+      touch-action: pan-y;
+      /* 가로 스와이프 허용 */
     }
 
     .carousel-track {
@@ -158,10 +160,19 @@
     carouselTrack.addEventListener('touchstart', e => {
       startX = e.touches[0].clientX;
       isDragging = true;
-    });
+    }, { passive: true });
+
+    carouselTrack.addEventListener('touchmove', e => {
+      // preventDefault를 안 쓰면 iOS에서 스크롤로 인식되어 드래그가 안됨
+      e.preventDefault();
+    }, { passive: false });
 
     carouselTrack.addEventListener('touchend', e => {
-      const delta = e.changedTouches[0].clientX - startX;
+      if (!isDragging) return;
+      const endX = e.changedTouches[0].clientX;
+      const delta = endX - startX;
+      isDragging = false;
+
       if (Math.abs(delta) > 50) {
         if (delta < 0 && currentIndex < detail.images.length - 1) {
           goToIndex(currentIndex + 1);
@@ -169,7 +180,6 @@
           goToIndex(currentIndex - 1);
         }
       }
-      isDragging = false;
     });
 
     if (detail) {
