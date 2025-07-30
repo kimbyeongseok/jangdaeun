@@ -203,9 +203,15 @@
         const navAttr = tab.classList.contains('tab') ? tab.dataset.tab : params.get('nav');
         const subnavAttr = tab.classList.contains('subtab') ? tab.dataset.subtab : null;
 
-        const url = new URL('/jangdaeun/index.html', window.location.origin);
+        const path = window.location.pathname;
+        const isGithubPages = path.includes('/jangdaeun/');
+        const basePath = isGithubPages ? '/jangdaeun/' : './';
+
+        const url = new URL(`${basePath}index.html`, window.location.origin);
         url.searchParams.set('nav', navAttr);
-        if (subnavAttr) url.searchParams.set('subnav', subnavAttr);
+        if (subnavAttr) {
+          url.searchParams.set('subnav', subnavAttr);
+        }
 
         window.location.href = url.toString();
       });
