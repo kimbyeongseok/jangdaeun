@@ -203,7 +203,7 @@
         const navAttr = tab.classList.contains('tab') ? tab.dataset.tab : params.get('nav');
         const subnavAttr = tab.classList.contains('subtab') ? tab.dataset.subtab : null;
 
-        const url = new URL('./index.html', window.location.origin);
+        const url = new URL('./index.html', window.location.href);
         url.searchParams.set('nav', navAttr);
         if (subnavAttr) url.searchParams.set('subnav', subnavAttr);
 
