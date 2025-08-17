@@ -10,7 +10,7 @@ function renderContent(nav, subnav) {
   const containerIds = isArt
     ? ['works', 'drawing']
     : isText
-      ? ['statement']
+      ? ['statement', 'text']
       : [];
 
   // 모든 콘텐츠 영역 초기화
@@ -94,15 +94,14 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('artSubnav').style.display = 'none';
     document.getElementById('textSubnav').style.display = 'none';
 
-    if (navParam === 'text') {
-      // ✅ Text는 subnav 없음: 바로 statement 렌더링
-      renderContent('text', 'statement');
-    } else if (subnavEl) {
-      // Art에만 subnav 표시
+    if (subnavEl) {
       subnavEl.style.display = 'flex';
+
+      // 서브탭 선택: 있으면 그걸, 없으면 첫 번째
       const targetSubtab = subnavParam
         ? subnavEl.querySelector(`.subtab[data-subtab="${subnavParam}"]`)
         : subnavEl.querySelector('.subtab');
+
       if (targetSubtab) {
         setActiveTab(targetSubtab, '.subtab');
         renderContent(navParam, targetSubtab.dataset.subtab);
@@ -124,11 +123,9 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('textSubnav').style.display = 'none';
 
       const subnavEl = document.getElementById(`${target}Subnav`);
-      if (target === 'text') {
-        // ✅ Text는 subnav 없이 바로 statement
-        renderContent('text', 'statement');
-      } else if (subnavEl) {
+      if (subnavEl) {
         subnavEl.style.display = 'flex';
+
         const firstSubtab = subnavEl.querySelector('.subtab');
         if (firstSubtab) {
           setActiveTab(firstSubtab, '.subtab');
