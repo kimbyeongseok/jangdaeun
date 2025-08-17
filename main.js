@@ -10,7 +10,7 @@ function renderContent(nav, subnav) {
   const containerIds = isArt
     ? ['works', 'drawing']
     : isText
-      ? ['statement', 'text']
+      ? []
       : [];
 
   // 모든 콘텐츠 영역 초기화
@@ -105,6 +105,12 @@ document.addEventListener('DOMContentLoaded', () => {
       if (targetSubtab) {
         setActiveTab(targetSubtab, '.subtab');
         renderContent(navParam, targetSubtab.dataset.subtab);
+      }
+      if (navParam === 'text') {
+        // subnav 없음: 바로 statement 콘텐츠 렌더링
+        renderContent('text', 'statement');
+      } else if (subnavEl) {
+        subnavEl.style.display = 'flex';
       }
     }
   }
