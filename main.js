@@ -106,13 +106,16 @@ document.addEventListener('DOMContentLoaded', () => {
         setActiveTab(targetSubtab, '.subtab');
         renderContent(navParam, targetSubtab.dataset.subtab);
       }
-      if (navParam === 'text') {
-        // subnav 없음: 바로 statement 콘텐츠 렌더링
-        renderContent('text', 'statement');
-      } else if (subnavEl) {
-        subnavEl.style.display = 'flex';
-      }
+
     }
+    if (navParam === 'text') {
+      // subnav 없음: 바로 statement 콘텐츠 렌더링
+      renderContent('text', 'statement');
+    } else if (subnavEl) {
+      subnavEl.style.display = 'flex';
+
+    }
+
   }
 
   // nav 탭 클릭 이벤트
