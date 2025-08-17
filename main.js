@@ -10,7 +10,7 @@ function renderContent(nav, subnav) {
   const containerIds = isArt
     ? ['works', 'drawing']
     : isText
-      ? ['text']
+      ? ['statement']
       : [];
 
   // 모든 콘텐츠 영역 초기화
@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (navParam === 'text') {
       // ✅ Text는 subnav 없음: 바로 statement 렌더링
-      renderContent('text', 'text');
+      renderContent('text', 'statement');
     } else if (subnavEl) {
       // Art에만 subnav 표시
       subnavEl.style.display = 'flex';
@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const subnavEl = document.getElementById(`${target}Subnav`);
       if (target === 'text') {
         // ✅ Text는 subnav 없이 바로 statement
-        renderContent('text', 'text');
+        renderContent('text', 'statement');
       } else if (subnavEl) {
         subnavEl.style.display = 'flex';
         const firstSubtab = subnavEl.querySelector('.subtab');
