@@ -1,4 +1,4 @@
-export const contents = [
+window.contents = [
 
     //**********/ Art - Works
     {

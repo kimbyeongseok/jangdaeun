@@ -1,4 +1,4 @@
-import { contents } from './data.js';
+const contents = (window && window.contents) ? window.contents : [];
 
 // 콘텐츠 렌더링 함수
 function renderContent(nav, subnav) {
