@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Jang Da Eun</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" type="image/png" href="/img/favicon.png" />
+  <link rel="icon" type="image/png" href="./img/favicon.png" />
 </head>
 
 <body>
@@ -35,8 +35,7 @@
     <div class="content-area">
       <!-- Page: ART -->
       <div class="page" id="artPage">
-        <div id="works" class="content-list">
-        </div>
+        <div id="works" class="content-list"></div>
         <div id="drawing" class="content-list" style="display:none"></div>
       </div>
 
@@ -45,15 +44,31 @@
         <div id="statement" class="content-list"></div>
         <div id="text" class="content-list" style="display:none"></div>
       </div>
-      
-      <div class="page" id="cvPage" style="display: none;">
-        <h1>CV</h1>
-        <p>이력서 정보가 여기에 들어갑니다.</p>
-      </div>
 
-      <div class="page" id="contactPage" style="display: none;">
-        <h1>Contact</h1>
-        <p>연락처 정보가 여기에 들어갑니다.</p>
+      <!-- Page: CV -->
+      <div class="page cv" id="cvPage" style="display: none;">
+        <p>2020&nbsp; 한국예술종합학교 조형예술과 예술사 졸업<br>2024&nbsp; 한국예술종합학교 조형예술과 전문사 졸업
+        </p>
+        <h1>solo exhibition</h1>
+        <p>
+          2025&nbsp; 네모난 원, Primary Practice<br>
+          2023&nbsp; howling, 레인보우큐브
+        </p>
+        <h1>group exhibition</h1>
+        <p>
+          2024&nbsp; 두산아트랩 전시 2025, 두산아트센터<br>
+          2023&nbsp; 솔라의 무대, 더 윌로/The Willow<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;open studio, 을지로 일대 프로젝트<br>
+          2019&nbsp; 한국예술종합학교 20회 졸업전시 '물은 피를 씻는다'<br>
+          2018&nbsp; Stet Beta, 서울과학기술대학교 미술관 다빈치관
+        </p>
+      </div>
+      
+      <!-- Page: Contact -->
+      <div class="page contact" id="contactPage" style="display: none;">
+        <p>chezjang@gmail.com</p>
+        <a href="https://www.instagram.com/qoo_jang?igsh=MTV6ZzQ1MnczaHMycQ%3D%3D&utm_source=qr" target="_blank"
+          rel="noopener noreferrer">@qoo_jang</a>
       </div>
 
     </div>
@@ -67,7 +82,8 @@
     <div class="top"></div>
     <div class="btm">© 2025 Jang Da Eun - All Rights Reserved</div>
   </footer>
-  <script type="module" src="main.js"></script>
+  <script src="data.js"></script>
+  <script src="main.js"></script>
 </body>
 
 </html>

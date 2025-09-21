@@ -1,3 +1,4 @@
+/*********** 공통 *************/
 * {
   box-sizing: border-box;
 }
@@ -8,10 +9,22 @@ a {
   cursor: pointer;
 }
 
+h1 {
+  margin: 0;
+  /* 기본 margin 제거 */
+  font-size: inherit;
+  /* 부모 폰트 크기 상속 */
+  font-weight: normal;
+  /* 기본 bold 제거 */
+  line-height: inherit;
+  /* 부모 line-height 상속 */
+}
+
 body {
   font-family: 'Lucida Grande', sans-serif;
   margin: 0;
   background: #FFEFAF;
+  min-height: 100vh;
 }
 
 header,
@@ -87,9 +100,11 @@ nav .active {
   background: #ECC730;
 }
 
+/*********** 메인 *************/
 .page {
   padding: 163px 24px 72px;
   background: #ECC730;
+  min-height: 83vh;
 }
 
 .content {
@@ -102,6 +117,7 @@ nav .active {
   font-size: 12px;
   font-weight: 400;
   color: #111;
+  cursor: pointer;
 }
 
 .content-list {
@@ -122,6 +138,9 @@ nav .active {
 
 .thumbnail img {
   width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
   border: 1px solid #e0d7c4;
   display: block;
 }
@@ -142,6 +161,7 @@ nav .active {
   color: #8b8b8b;
 }
 
+/*********** 상세화면 *************/
 .detail {
   background: #E0E0E0;
   border-top: 1px solid #fff;
@@ -152,34 +172,49 @@ nav .active {
 }
 
 .carousel-container {
-  overflow: hidden;
-  position: relative;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
 }
 
 .carousel-track {
   display: flex;
   transition: transform 0.3s ease;
   will-change: transform;
+  max-height: 400px;
+  scroll-behavior: smooth;
+  width: max-content;
 }
 
 .carousel-track img {
   flex-shrink: 0;
-  width: 100%;
+  width: 100vw;
+  scroll-snap-align: start;
   object-fit: contain;
   max-height: 70vh;
 }
 
 .slider {
   display: flex;
-  justify-content: center;
-  /* 가로 가운데 정렬 */
+  justify-content: flex-start;
+  /* 왼쪽부터 시작 */
   gap: 0;
   overflow-x: auto;
   border-bottom: 1px solid #fff;
+  padding: 0px 24px;
 }
 
 .slider::-webkit-scrollbar {
   display: none;
+}
+
+.carousel-container::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari */
 }
 
 .slider img {
@@ -187,7 +222,16 @@ nav .active {
   cursor: pointer;
   object-fit: cover;
   border: 0px solid transparent;
+  aspect-ratio: 4 / 3;
   /* 기본 border 없앰 */
+}
+
+/* 썸네일 포커스 시 브라우저 기본 스타일 제거 */
+.slider img:focus {
+  outline: none;
+  /* 점선/파란 테두리 제거 */
+  box-shadow: none;
+  /* 혹시 남는 그림자 제거 */
 }
 
 .slider img.active {
@@ -244,6 +288,35 @@ footer .btm {
   color: #8b8b8b;
   margin: 52px 0 14px;
 }
+
+/*********** CV, Contact *************/
+#cvPage,
+#contactPage {
+  padding: 120px 24px 72px;
+}
+
+#cvPage h1 {
+  font-size: 12px;
+  color: #00000060;
+  margin-top: 24px;
+}
+
+#cvPage,
+#contactPage p {
+  font-size: 12px;
+  color: #343434;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+#contactPage a {
+  font-size: 12px;
+  color: #343434;
+}
+
+
+
+
 
 /*********** ✅ PC 전용 레이아웃 *************/
 
@@ -308,8 +381,16 @@ footer .btm {
   .content-area {
     margin: 0 28px 0 200px;
     /* subnav 너비 + 여백만큼 우측으로 밀기 */
+    width: calc(100% - 200px - 56px);
     flex: 1;
     z-index: 11;
+  }
+
+  body:has(#cvPage[style*="display: block"]) .content-area,
+  body:has(#contactPage[style*="display: block"]) .content-area {
+    margin: 0 28px 0 28px !important;
+    width: calc(100% - 56px);
+    /* 좌우 28px씩 빼고 꽉 차게 */
   }
 
   .page,
@@ -342,17 +423,21 @@ footer .btm {
     object-fit: cover;
   }
 
+  /*********** 상세화면 *************/
   .detail {
     display: flex;
     flex-direction: column;
     padding: 0 0 40px;
   }
 
-  .main-image {
-    width: 60%;
-    max-width: 100%;
-    height: auto;
-    object-fit: contain;
+  .carousel-track {
+    max-height: 40vh;
+    width: 100%;
+  }
+
+  .carousel-track img {
+    width: 100%;
+
   }
 
   #detailText {
@@ -369,8 +454,8 @@ footer .btm {
   }
 
   .slider {
-    justify-content: center;
-    padding: 0px 24px;
+    justify-content: flex-start;
+    padding: 0px 48px;
   }
 
   .slider img {
@@ -381,13 +466,21 @@ footer .btm {
     padding: 0;
     margin: 48px 0 0 0;
   }
-footer .top {
-  height: 32px;
-  margin-top: -1px;
-}
+
+  footer .top {
+    height: 32px;
+    margin-top: -1px;
+  }
+
   footer .btm {
     font-size: 12px;
     padding: 52px 24px 14px;
     margin: 0;
+  }
+
+  /*********** CV, Contact *************/
+  #cvPage,
+  #contactPage {
+    padding: 36px 28px 80px;
   }
 }

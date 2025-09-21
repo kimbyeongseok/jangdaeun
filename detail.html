@@ -6,37 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Work Detail</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" type="image/png" href="/img/favicon.png" />
-  <style>
-    .carousel-container {
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      touch-action: pan-x;
-      scrollbar-width: none;
-      /* Firefox */
-      -ms-overflow-style: none;
-    }
-
-    .carousel-container::-webkit-scrollbar {
-      display: none;
-      /* Chrome, Safari */
-    }
-
-    .carousel-track {
-      display: flex;
-      scroll-behavior: smooth;
-      width: max-content;
-    }
-
-    .carousel-track img {
-      flex-shrink: 0;
-      width: 100vw;
-      max-height: 70vh;
-      scroll-snap-align: start;
-      object-fit: contain;
-    }
-  </style>
+  <link rel="icon" type="image/png" href="./img/favicon.png" />
 </head>
 
 <body>
@@ -74,117 +44,210 @@
     <div class="top"></div>
     <div class="btm">© 2025 Jang Da Eun - All Rights Reserved</div>
   </footer>
-
+  <script src="data.js"></script>
   <script type="module">
-    import { contents } from './data.js';
+    const contents = (window && window.contents) ? window.contents : [];
 
+    // ===== URL Params =====
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');
     const nav = params.get('nav');
     const subnav = params.get('subnav');
 
+    // ===== 탭 활성화 (기존 동일) =====
     if (nav) {
       const navTab = document.querySelector(`.tab[data-tab="${nav}"]`);
       if (navTab) navTab.classList.add('active');
     }
-
     if (subnav) {
       const subTab = document.querySelector(`.subtab[data-subtab="${subnav}"]`);
       if (subTab) subTab.classList.add('active');
     }
 
-    const subnavMap = {
-      art: ['works', 'drawing'],
-      text: ['statement', 'text']
-    };
-
+    const subnavMap = { art: ['works', 'drawing'], text: ['statement', 'text'] };
     const allowedSubtabs = subnavMap[nav] || [];
     document.querySelectorAll('.subtab').forEach(tab => {
       const type = tab.getAttribute('data-subtab');
       tab.style.display = allowedSubtabs.includes(type) ? 'inline-block' : 'none';
     });
 
+    // ===== 요소 =====
     const detail = contents.find(item => item.id === id);
+    const carouselContainer = document.querySelector('.carousel-container'); // ★ 스크롤 주체
     const carouselTrack = document.getElementById('carouselTrack');
     const detailText = document.getElementById('detailText');
     const previewSlider = document.getElementById('previewSlider');
 
     let currentIndex = 0;
 
-    function renderCarousel(images) {
-      carouselTrack.innerHTML = images.map(src => `
-    <img src="${src}" loading="lazy" />
-  `).join('');
-    }
+    // ===== 유틸 =====
+    const getSlideWidth = () => {
+      const first = carouselTrack.querySelector('img');
+      return first ? first.clientWidth : carouselContainer.clientWidth || 1;
+    };
 
+    const centerThumbInSlider = (index) => {
+      const el = previewSlider.children[index];
+      if (!el) return;
+      const targetLeft = el.offsetLeft - (previewSlider.clientWidth - el.clientWidth) / 2;
+      previewSlider.scrollTo({ left: Math.max(0, targetLeft), behavior: 'smooth' });
+    };
 
-    function updateSliderActive(index) {
+    const updateSliderActive = (index) => {
       const thumbs = previewSlider.querySelectorAll('img');
-      thumbs.forEach((el, i) => {
-        el.classList.toggle('active', i === index);
-      });
+      thumbs.forEach((el, i) => el.classList.toggle('active', i === index));
+      centerThumbInSlider(index); // ★ 항상 중앙으로
+    };
+
+    const goToSlide = (index) => {
+      const slide = carouselTrack.children[index];
+      if (!slide) return;
+      slide.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+      currentIndex = index;
+      updateSliderActive(index);
+    };
+
+    // ===== 렌더 =====
+    function renderCarousel(images) {
+      const list = (images || []).filter(Boolean); // ★ 빈 문자열 방지
+      carouselTrack.innerHTML = list.map((src, i) => `<img src="${src}" loading="lazy" draggable="false" data-idx="${i}"/>`).join('');
     }
 
     function initSlider(images) {
-      previewSlider.innerHTML = images.map((src, i) => `
-    <img src="${src}" loading="lazy" data-index="${i}" />
-  `).join('');
-
-      previewSlider.querySelectorAll('img').forEach((img, i) => {
+      const list = (images || []).filter(Boolean);
+      previewSlider.innerHTML = list.map((src, i) => `<img src="${src}" loading="lazy" data-index="${i}" />`).join('');
+      previewSlider.querySelectorAll('img').forEach((img) => {
         img.addEventListener('click', () => {
-          const slide = carouselTrack.children[i];
-          slide.scrollIntoView({ behavior: 'smooth', inline: 'start' });
+          const target = Number(img.dataset.index);
+          goToSlide(target);
         });
       });
     }
 
-
-
+    // ===== 초기 세팅 =====
     if (detail) {
       detailText.innerHTML = `
-        <h3>${detail.title}</h3>
-        ${detail.subtitle ? `<p><strong>${detail.subtitle}</strong></p>` : ''}
-        <p>${detail.body}</p>
-      `;
-
+      <h3>${detail.title}</h3>
+      ${detail.subtitle ? `<p><strong>${detail.subtitle}</strong></p>` : ''}
+      <p>${detail.body || ''}</p>
+    `;
       if (detail.images && detail.images.length > 0) {
         renderCarousel(detail.images);
         initSlider(detail.images);
+        // ==== 첫 진입 시 1번(0번 인덱스) 썸네일 확실히 보이게 & 포커스 ====
+        // 1) 좌측 잘림 방지: 먼저 스크롤을 0으로 고정해 왼쪽이 짤리지 않게 함
+        previewSlider.scrollLeft = 0;
+
+        // 2) 빈 src 썸네일이 있으면 제거 (data.js에 "" 항목이 섞여 있어 레이아웃이 꼬일 수 있음)
+        previewSlider.querySelectorAll('img').forEach(img => {
+          if (!img.getAttribute('src')) img.remove();
+        });
+
+        // 3) 첫 번째 썸네일 DOM
+        const firstThumb = previewSlider.querySelector('img');
+        if (firstThumb) {
+          // 접근성 포커스 가능
+          firstThumb.setAttribute('tabindex', '0');
+
+          // 먼저 화면의 "왼쪽 시작점"에 보이도록 보장 (잘림 방지)
+          firstThumb.scrollIntoView({ block: 'nearest', inline: 'start' });
+
+          // 다음 프레임에 중앙 정렬까지 자연스럽게 이동
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              const targetLeft = firstThumb.offsetLeft - (previewSlider.clientWidth - firstThumb.clientWidth) / 2;
+              previewSlider.scrollTo({ left: Math.max(0, targetLeft), behavior: 'auto' }); // 즉시 위치 고정
+              // active 표시 + 포커스
+              firstThumb.classList.add('active'); // 기존 updateSliderActive 미변경 상태에서도 시각적 표시
+              try { firstThumb.focus({ preventScroll: true }); } catch (e) { }
+            });
+          });
+        }
+
+        // 초기에 0번 활성화 + 중앙
+        updateSliderActive(0);
       }
     }
 
+    // ===== 캐러셀 스크롤 → 현재 인덱스 추적 =====
+    let rafId = null;
+    const onScroll = () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        const w = getSlideWidth();
+        const idx = Math.round(carouselContainer.scrollLeft / w);
+        if (idx !== currentIndex) {
+          currentIndex = idx;
+          updateSliderActive(idx);
+        }
+      });
+    };
+    carouselContainer.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', () => {
+      // 리사이즈 시에도 중앙 유지
+      updateSliderActive(currentIndex);
+    });
+
+    // ===== Back 버튼 (기존 동일) =====
     const backBtn = document.querySelector('.back-btn');
     if (backBtn && nav && subnav && id) {
       backBtn.innerHTML = `&lt; Show all ${subnav}`;
-      backBtn.addEventListener('click', () => {
+      backBtn.addEventListener('click', (e) => {
+        e.preventDefault();
         localStorage.setItem('scrollToId', id);
-        const url = new URL('./index.html', window.location.origin);
-        url.searchParams.set('nav', nav);
-        url.searchParams.set('subnav', subnav);
-        url.searchParams.set('id', id);
-        window.location.href = url.toString();
+
+        const isGithubPages = window.location.pathname.includes('/jangdaeun/');
+        const base = isGithubPages ? './index.html' : 'index.html';
+
+        const href = `${base}?nav=${encodeURIComponent(nav || 'art')}`
+          + `&subnav=${encodeURIComponent(subnav || 'works')}`
+          + `&id=${encodeURIComponent(id)}`;
+
+        window.location.assign(href);
       });
     }
 
-    document.querySelectorAll('.tab, .subtab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        const navAttr = tab.classList.contains('tab') ? tab.dataset.tab : params.get('nav');
-        const subnavAttr = tab.classList.contains('subtab') ? tab.dataset.subtab : null;
 
-        const path = window.location.pathname;
-        const isGithubPages = path.includes('/jangdaeun/');
-        const basePath = isGithubPages ? '/jangdaeun/' : './';
+    // ===== 상단 탭 네비 (기존 동일) =====
+    (function wireTabs() {
+      const params = new URLSearchParams(window.location.search);
+      const currentNav = params.get('nav') || 'art';
 
-        const url = new URL(`${basePath}index.html`, window.location.origin);
-        url.searchParams.set('nav', navAttr);
-        if (subnavAttr) {
-          url.searchParams.set('subnav', subnavAttr);
-        }
+      const isGithubPages = window.location.pathname.includes('/jangdaeun/');
+      const base = isGithubPages ? './index.html' : 'index.html';
 
-        window.location.href = url.toString();
+      const defaultSub = (nv) => nv === 'art' ? 'works'
+        : nv === 'text' ? 'statement'
+          : null;
+
+      // 탭: nav 변경 + 기본 subnav 세팅
+      document.querySelectorAll('.tab').forEach(el => {
+        el.addEventListener('click', (e) => {
+          e.preventDefault(); // ← 기본 앵커 이동 차단
+          const nv = el.dataset.tab;
+
+          // CV/Contact 등 별도 섹션도 index.html로 통일해서 이동
+          let href = `${base}?nav=${encodeURIComponent(nv)}`;
+          const sub = defaultSub(nv);
+          if (sub) href += `&subnav=${encodeURIComponent(sub)}`;
+
+          window.location.assign(href);
+        });
       });
-    });
+
+      // 서브탭: 현재 nav 유지 + subnav만 변경
+      document.querySelectorAll('.subtab').forEach(el => {
+        el.addEventListener('click', (e) => {
+          e.preventDefault();
+          const nv = currentNav || 'art';
+          const sv = el.dataset.subtab || defaultSub(nv) || 'works';
+          const href = `${base}?nav=${encodeURIComponent(nv)}&subnav=${encodeURIComponent(sv)}`;
+          window.location.assign(href);
+        });
+      });
+    })();
   </script>
+
 </body>
 
 </html>

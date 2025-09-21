@@ -1,4 +1,4 @@
-import { contents } from './data.js';
+const contents = (window && window.contents) ? window.contents : [];
 
 // 콘텐츠 렌더링 함수
 function renderContent(nav, subnav) {
@@ -36,19 +36,37 @@ function renderContent(nav, subnav) {
 `).join('');
 
 
-  // ✅ 썸네일 스크롤 복원 처리
-  const params = new URLSearchParams(window.location.search);
-  const targetId = params.get('id') || localStorage.getItem('scrollToId');
+  // ✅ 썸네일 스크롤 복원 처리 (헤더/네비 높이만큼 보정)
+  // {
+  //   const params = new URLSearchParams(window.location.search);
+  //   const targetId = params.get('id') || localStorage.getItem('scrollToId');
 
-  if (targetId) {
-    setTimeout(() => {
-      const targetEl = document.getElementById(`thumb-${targetId}`);
-      if (targetEl) {
-        targetEl.scrollIntoView({ block: 'start' });
-        localStorage.removeItem('scrollToId'); // 사용 후 제거
-      }
-    }, 100);
-  }
+  //   if (targetId) {
+  //     // 레이아웃/이미지 렌더가 끝난 다음에 계산해야 정확함
+  //     requestAnimationFrame(() => {
+  //       const targetEl = document.getElementById(`thumb-${targetId}`);
+  //       if (!targetEl) return;
+
+  //       // 현재 화면에서 실제로 보이는 fixed 바들의 총 높이 계산
+  //       const fixedOffset = Array.from(document.querySelectorAll('header, nav, .subnav'))
+  //         .filter(el => {
+  //           const cs = window.getComputedStyle(el);
+  //           // fixed이고, 표시 중이며, 높이가 있는 요소만 카운트
+  //           return cs.position === 'fixed' && el.offsetParent !== null && el.offsetHeight > 0;
+  //         })
+  //         .reduce((sum, el) => sum + el.offsetHeight, 0);
+
+  //       // 요소의 문서 기준 Y좌표 - fixed 총 높이 - 여유 여백(8px)
+  //       const top = targetEl.getBoundingClientRect().top + window.pageYOffset - fixedOffset - 8;
+
+  //       // 일부 브라우저는 'instant' 미지원 → auto로 폴백
+  //       const behavior = ('scrollBehavior' in document.documentElement.style) ? 'auto' : undefined;
+  //       window.scrollTo({ top, left: 0, behavior });
+
+  //       localStorage.removeItem('scrollToId'); // 사용 후 제거
+  //     });
+  //   }
+  // }
 
 }
 
@@ -142,4 +160,8 @@ document.addEventListener('DOMContentLoaded', () => {
       updateContentFromTabs();
     });
   });
+
+  
 });
+
+
