@@ -91,19 +91,38 @@ function updateContentFromTabs() {
   }
 }
 // ✅ 스크롤 초기화: 문서/리스트 모두 맨 위로
+// ✅ iOS Safari까지 확실히 스크롤 최상단으로
 function resetScrollToTop() {
-  // 문서 스크롤
+  // 사파리의 히스토리 자동 복원 비활성화
   try {
-    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-  } catch {
-    window.scrollTo(0, 0);
-  }
-  // 내부 스크롤 영역도 초기화 (있다면)
-  document.querySelectorAll('.content-area, .content-list').forEach(el => {
-    el.scrollTop = 0;
-    el.scrollLeft = 0;
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  } catch { }
+
+  const hardScrollTop = () => {
+    // 문서 레벨
+    try { window.scrollTo(0, 0); } catch { }
+    try { window.scrollTo({ top: 0, left: 0, behavior: 'auto' }); } catch { }
+    // iOS가 참조하는 스크롤링 엘리먼트들 모두 초기화
+    const se = document.scrollingElement || document.documentElement;
+    try { se.scrollTop = 0; } catch { }
+    try { document.documentElement.scrollTop = 0; } catch { }
+    try { document.body.scrollTop = 0; } catch { }
+
+    // 내부 스크롤 컨테이너(있다면)도 초기화
+    document.querySelectorAll('.content-area, .content, .content-list').forEach(el => {
+      el.scrollTop = 0;
+      el.scrollLeft = 0;
+    });
+  };
+
+  // 레이아웃이 갱신된 뒤 여러 타이밍에서 재시도 (iOS 안정화)
+  requestAnimationFrame(() => {
+    hardScrollTop();           // 1차
+    setTimeout(hardScrollTop, 0);    // 2차(마이크로틱 이후)
+    setTimeout(hardScrollTop, 80);   // 3차(이미지/폰트 늦게 반영 대비)
   });
 }
+
 
 // 초기화
 document.addEventListener('DOMContentLoaded', () => {
