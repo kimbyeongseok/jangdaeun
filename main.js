@@ -163,6 +163,9 @@ document.addEventListener('DOMContentLoaded', () => {
           setActiveTab(firstSubtab, '.subtab');
           renderContent(target, firstSubtab.dataset.subtab);
           resetScrollToTop();
+        } else {
+          // (CV/Contact처럼 subnav가 없는 페이지도 초기화)
+          resetScrollToTop();
         }
       }
     });
