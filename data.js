@@ -94,11 +94,11 @@ window.contents = [
         images: ["img/movement_01.png", "img/movement_02.png", "img/movement_03.png", "img/movement_04.png", "img/movement_05.png", "img/movement_06.png", "img/movement_07.png", "img/movement_02.png", "img/movement_03.png", "img/movement_04.png", "img/movement_05.png", "img/movement_06.png", "img/movement_07.png"]
     },
 
-    //**********/ Text - Statement
+    //**********/ Text - review
     {
-        id: "statement",
+        id: "review",
         nav: "text",
-        subnav: "statement",
+        subnav: "review",
         img: "",
         title: "howling 초안",
         subtitle: "플라니우스의 박물지 제35권에 부타데스의 딸의 일화가 나온 다. 그림의 기원에 관한 이야기라고도 한다. 기원전 600년 경 에 코린토스 지역의 도공 부타데스에게 딸이 있었다. 그녀에게 는 사랑하는 이가 있었는데 그녀에게서 멀리 떠나야 했다고 한 다. 그녀는 그 사람을 기억하기 위해 그 사람의 얼굴에 등불을 비추어 그림자를 그렸다. 그리고 그녀의 아버지는 그 그림자 위 에 부조를 얹는다. 그 얼굴은 기원전 146년경까지 보관되었다 고 한다.",
@@ -106,9 +106,9 @@ window.contents = [
         images: ""
     },
     {
-        id: "statement",
+        id: "review",
         nav: "text",
-        subnav: "statement",
+        subnav: "review",
         img: "",
         title: "howling 초안",
         subtitle: "플라니우스의 박물지 제35권에 부타데스의 딸의 일화가 나온 다. 그림의 기원에 관한 이야기라고도 한다. 기원전 600년 경 에 코린토스 지역의 도공 부타데스에게 딸이 있었다. 그녀에게 는 사랑하는 이가 있었는데 그녀에게서 멀리 떠나야 했다고 한 다. 그녀는 그 사람을 기억하기 위해 그 사람의 얼굴에 등불을 비추어 그림자를 그렸다. 그리고 그녀의 아버지는 그 그림자 위 에 부조를 얹는다. 그 얼굴은 기원전 146년경까지 보관되었다 고 한다.",
@@ -116,9 +116,9 @@ window.contents = [
         images: ""
     },
     {
-        id: "statement",
+        id: "review",
         nav: "text",
-        subnav: "statement",
+        subnav: "review",
         img: "",
         title: "howling 초안",
         subtitle: "플라니우스의 박물지 제35권에 부타데스의 딸의 일화가 나온 다. 그림의 기원에 관한 이야기라고도 한다. 기원전 600년 경 에 코린토스 지역의 도공 부타데스에게 딸이 있었다. 그녀에게 는 사랑하는 이가 있었는데 그녀에게서 멀리 떠나야 했다고 한 다. 그녀는 그 사람을 기억하기 위해 그 사람의 얼굴에 등불을 비추어 그림자를 그렸다. 그리고 그녀의 아버지는 그 그림자 위 에 부조를 얹는다. 그 얼굴은 기원전 146년경까지 보관되었다 고 한다.",

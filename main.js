@@ -10,7 +10,7 @@ function renderContent(nav, subnav) {
   const containerIds = isArt
     ? ['works', 'drawing']
     : isText
-      ? ['statement', 'text']
+      ? ['review', 'text']
       : [];
 
   // 모든 콘텐츠 영역 초기화

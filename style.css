@@ -100,16 +100,21 @@ nav .active {
   background: #ECC730;
 }
 
+.page-wrapper {
+  min-height: calc(100vh - 78px - 48px);
+}
+
 /*********** 메인 *************/
 .page {
   padding: 163px 24px 72px;
   background: #ECC730;
-  min-height: 83vh;
+   min-height: calc(100vh - 78px - 48px);
 }
 
 .content {
   padding: 138px 0 0;
   background: #ECC730;
+  min-height: calc(100vh - 78px - 48px);
 }
 
 .content .back-btn {
@@ -175,7 +180,7 @@ nav .active {
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
-  touch-action: pan-x;
+  touch-action: pan-x pan-y;
   scrollbar-width: none;
   /* Firefox */
   -ms-overflow-style: none;
@@ -185,7 +190,7 @@ nav .active {
   display: flex;
   transition: transform 0.3s ease;
   will-change: transform;
-  max-height: 400px;
+  height: 400px;
   scroll-behavior: smooth;
   width: max-content;
 }
@@ -393,9 +398,14 @@ footer .btm {
     /* 좌우 28px씩 빼고 꽉 차게 */
   }
 
+  .page-wrapper {
+    min-height: calc(100vh - 81px - 32px);
+  }
+
   .page,
   .content {
     margin-top: 120px;
+    min-height: auto
   }
 
   .page {
@@ -431,7 +441,7 @@ footer .btm {
   }
 
   .carousel-track {
-    max-height: 40vh;
+    height: 500px;
     width: 100%;
   }
 
