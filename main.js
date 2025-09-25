@@ -90,6 +90,20 @@ function updateContentFromTabs() {
     renderContent(nav, subnav);
   }
 }
+// ✅ 스크롤 초기화: 문서/리스트 모두 맨 위로
+function resetScrollToTop() {
+  // 문서 스크롤
+  try {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  } catch {
+    window.scrollTo(0, 0);
+  }
+  // 내부 스크롤 영역도 초기화 (있다면)
+  document.querySelectorAll('.content-area, .content-list').forEach(el => {
+    el.scrollTop = 0;
+    el.scrollLeft = 0;
+  });
+}
 
 // 초기화
 document.addEventListener('DOMContentLoaded', () => {
@@ -148,6 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (firstSubtab) {
           setActiveTab(firstSubtab, '.subtab');
           renderContent(target, firstSubtab.dataset.subtab);
+          resetScrollToTop();
         }
       }
     });
@@ -158,10 +173,11 @@ document.addEventListener('DOMContentLoaded', () => {
     subtab.addEventListener('click', () => {
       setActiveTab(subtab, '.subtab');
       updateContentFromTabs();
+      resetScrollToTop();
     });
   });
 
-  
+
 });
 
 
