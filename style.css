@@ -190,7 +190,7 @@ nav .active {
   display: flex;
   transition: transform 0.3s ease;
   will-change: transform;
-  max-height: 400px;
+  height: 400px;
   scroll-behavior: smooth;
   width: max-content;
 }
@@ -441,7 +441,7 @@ footer .btm {
   }
 
   .carousel-track {
-    max-height: 500px;
+    height: 500px;
     width: 100%;
   }
 

@@ -106,6 +106,7 @@
       currentIndex = index;
       updateSliderActive(index);
     };
+
     // ✅ Safari-safe: 초기 1번 이미지 고정
     async function safariSafeInitFirstSlide() {
       // 1) 초기 스냅 비활성화(사파리 랜덤 스냅 방지)
@@ -145,6 +146,7 @@
     function renderCarousel(images) {
       const list = (images || []).filter(Boolean); // ★ 빈 문자열 방지
       carouselTrack.innerHTML = list.map((src, i) => `<img src="${src}" loading="lazy" draggable="false" data-idx="${i}"/>`).join('');
+
     }
 
     function initSlider(images) {
@@ -165,16 +167,16 @@
       ${detail.subtitle ? `<p><strong>${detail.subtitle}</strong></p>` : ''}
       <p>${detail.body || ''}</p>
     `;
-      if (detail.images && detail.images.length > 0) {
+      if (detail.images && Array.isArray(detail.images) && detail.images.filter(src => src && src.trim() !== "").length > 0) {
         renderCarousel(detail.images);
         initSlider(detail.images);
-        renderCarousel(detail.images);
-        initSlider(detail.images);
-
-        // ✅ 사파리 안전 초기 고정
         safariSafeInitFirstSlide();
-
+      } else {
+        // ✅ 이미지가 없으면 높이 0
+        carouselTrack.style.height = '0px';
+        carouselContainer.style.height = '0px';
       }
+
     }
 
     // ===== 캐러셀 스크롤 → 현재 인덱스 추적 =====
