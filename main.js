@@ -28,12 +28,13 @@ function renderContent(nav, subnav) {
 
   container.style.display = 'grid';
   container.innerHTML = filtered.map(item => `
-  <div class="thumbnail" id="thumb-${item.id}" onclick="location.href='./detail.html?id=${item.id}&nav=${item.nav}&subnav=${item.subnav}'">
-    ${item.img ? `<img src="${item.img}" loading="lazy" alt="${item.title}" />` : ''}
-    <p>${item.title}</p>
-    ${item.subtitle ? `<h1>${item.subtitle}</h1>` : ''}
-  </div>
-`).join('');
+    <a class="thumbnail" id="thumb-${item.id}" 
+       href="./detail.html?id=${item.id}&nav=${item.nav}&subnav=${item.subnav}">
+     ${item.img ? `<img src="${item.img}" loading="lazy" alt="${item.title}" />` : ''}
+     <p>${item.title}</p>
+     ${item.subtitle ? `<h1>${item.subtitle}</h1>` : ''}
+    </a>
+  `).join('');
 
 
   // ✅ 썸네일 스크롤 복원 처리 (헤더/네비 높이만큼 보정)

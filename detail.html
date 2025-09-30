@@ -4,10 +4,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jang Daeun</title>
-  <meta name="description" content="Jang Daeun - Works">
+  <title>장다은 Jang Daeun Works</title>
+  <meta name="description" content="장다은 작가, 작업, 서울에서 활동, Jang Daeun - Works, Based in Seoul ">
   <meta name="keywords"
-    content="Jang Da Eun, jang daeun, jang, daeun, works, work, review, artist, portfolio, art, exhibition, contemporary art, design, text, 장다은, 작가, 장다은 작가, 장다은 작업, 한예종, 한국예술종합학교, 한예종 전문사, 두산, 두산아트센터, 두산갤러리, pp, 프라이머리 프랙디스, primary practce">
+    content="장다은, 작가, 장다은 작가, 장다은 작업, Jang Da Eun, jang daeun, jang, daeun, works, work, review, artist, portfolio, art, exhibition, contemporary art, design, text, 한예종, 한국예술종합학교, 한예종 전문사, 두산, 두산아트센터, 두산갤러리, pp, 프라이머리 프랙디스, primary practce">
   <meta name="author" content="Jang Daeun">
 
   <!-- Open Graph (SNS 공유 최적화) -->
@@ -22,8 +22,26 @@
   <meta name="twitter:title" content="Jang Daeun">
   <meta name="twitter:description" content="Works and Texts">
   <meta name="twitter:image" content="https://jangdaeun.com/img/favicon.png">
-  
-  <title>Work Detail</title>
+
+  <!-- ✅ JSON-LD 구조화 데이터 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Jang Da Eun",
+    "alternateName": "장다은 작가",
+    "url": "https://jangdaeun.com",
+    "sameAs": [
+      "https://www.instagram.com/qoo_jang"
+    ],
+    "description": "Jang Da Eun - Works, Based in Seoul",
+    "jobTitle": "Artist",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Independent"
+    }
+  }
+  </script>
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" type="image/png" href="./img/favicon.png" />
 </head>
@@ -196,6 +214,35 @@
         carouselContainer.style.height = '0px';
       }
 
+    }
+    //  상세 페이지에 작품 스키마(VisualArtwork) 넣기
+    if (detail) {
+      // ... 기존 detailText 렌더 코드
+
+      // ✅ 작품 구조화 데이터 주입
+      const toAbs = (src) => src && (src.startsWith('http')
+        ? src
+        : new URL(src, location.origin).href);
+      const images = Array.isArray(detail.images) ? detail.images.filter(Boolean) : [];
+      const ld = {
+        "@context": "https://schema.org",
+        "@type": "FineArtwork",
+        "name": detail.title,
+        "image": images.length ? images.map(toAbs) : (detail.img ? [toAbs(detail.img)] : undefined),
+        "description": (detail.subtitle ? detail.subtitle.replace(/<br\/?>/g, ' ') + ' ' : '') + (detail.body || ''),
+        "creator": { "@type": "Person", "name": "Jang Da Eun" },
+        "url": location.href
+      };
+      const s = document.createElement('script');
+      s.type = 'application/ld+json';
+      s.textContent = JSON.stringify(ld);
+      document.head.appendChild(s);
+
+      // (선택) 정규 URL을 고정
+      const link = document.createElement('link');
+      link.rel = 'canonical';
+      link.href = location.href;
+      document.head.appendChild(link);
     }
 
     // ===== 캐러셀 스크롤 → 현재 인덱스 추적 =====

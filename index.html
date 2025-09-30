@@ -5,10 +5,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <!-- SEO 기본 -->
-  <title>Jang Daeun</title>
-  <meta name="description" content="Jang Daeun - Works">
+  <title>장다은 Jang Daeun Works</title>
+  <meta name="description" content="장다은 작가, 작업, 서울에서 활동, Jang Daeun - Works, Based in Seoul ">
   <meta name="keywords"
-    content="Jang Da Eun, jang daeun, jang, daeun, works, work, review, artist, portfolio, art, exhibition, contemporary art, design, text, 장다은, 작가, 장다은 작가, 장다은 작업, 한예종, 한국예술종합학교, 한예종 전문사, 두산, 두산아트센터, 두산갤러리, pp, 프라이머리 프랙디스, primary practce">
+    content="장다은, 작가, 장다은 작가, 장다은 작업, Jang Da Eun, jang daeun, jang, daeun, works, work, review, artist, portfolio, art, exhibition, contemporary art, design, text, 한예종, 한국예술종합학교, 한예종 전문사, 두산, 두산아트센터, 두산갤러리, pp, 프라이머리 프랙디스, primary practce">
   <meta name="author" content="Jang Daeun">
 
   <!-- Open Graph (SNS 공유 최적화) -->
@@ -30,10 +30,12 @@
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "Jang Da Eun",
+    "alternateName": "장다은 작가",
     "url": "https://jangdaeun.com",
     "sameAs": [
       "https://www.instagram.com/qoo_jang"
     ],
+    "description": "Jang Da Eun - Works, Based in Seoul",
     "jobTitle": "Artist",
     "worksFor": {
       "@type": "Organization",
@@ -41,8 +43,6 @@
     }
   }
   </script>
-
-  <title>Jang Da Eun</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" type="image/png" href="./img/favicon.png" />
 </head>
@@ -123,6 +123,31 @@
   </footer>
   <script src="data.js"></script>
   <script src="main.js"></script>
+
+  <!-- JSON-LD(구조화 데이터) 자동 생성해서 “콘텐츠 명단”을 노출 -->
+  <script>
+    (function () {
+      const items = (window.contents || [])
+        .filter(x => x && x.id && x.title && x.nav === 'art'); // 필요시 drawing/text 포함 조정
+
+      const itemList = {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Jang Da Eun Works",
+        "itemListElement": items.map((it, i) => ({
+          "@type": "ListItem",
+          "position": i + 1,
+          "url": `https://jangdaeun.com/detail.html?id=${encodeURIComponent(it.id)}&nav=${it.nav}&subnav=${it.subnav}`
+        }))
+      };
+
+      const el = document.createElement('script');
+      el.type = 'application/ld+json';
+      el.textContent = JSON.stringify(itemList);
+      document.head.appendChild(el);
+    })();
+  </script>
+
 </body>
 
 </html>
