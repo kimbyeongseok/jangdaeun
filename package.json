@@ -1,4 +1,7 @@
 {
+    "name": "jangdaeun-site",
+    "version": "1.0.0",
+    "type": "module",
     "scripts": {
         "build:sitemap": "node scripts/generate-sitemap.mjs"
     }
