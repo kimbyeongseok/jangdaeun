@@ -4,14 +4,51 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Work Detail</title>
+  <title>장다은 Jang Daeun Works</title>
+  <meta name="description" content="장다은 작가, 작업, 서울에서 활동, Jang Daeun - Works, Based in Seoul ">
+  <meta name="keywords"
+    content="장다은, 작가, 장다은 작가, 장다은 작업, Jang Da Eun, jang daeun, jang, daeun, works, work, review, artist, portfolio, art, exhibition, contemporary art, design, text, 한예종, 한국예술종합학교, 한예종 전문사, 두산, 두산아트센터, 두산갤러리, pp, 프라이머리 프랙디스, primary practce">
+  <meta name="author" content="Jang Daeun">
+
+  <!-- Open Graph (SNS 공유 최적화) -->
+  <meta property="og:title" content="Jang Daeun">
+  <meta property="og:description" content="Works and Texts">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://jangdaeun.com/">
+  <meta property="og:image" content="https://jangdaeun.com/img/favicon.png">
+
+  <!-- Twitter 카드 -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Jang Daeun">
+  <meta name="twitter:description" content="Works and Texts">
+  <meta name="twitter:image" content="https://jangdaeun.com/img/favicon.png">
+
+  <!-- ✅ JSON-LD 구조화 데이터 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Jang Da Eun",
+    "alternateName": "장다은 작가",
+    "url": "https://jangdaeun.com",
+    "sameAs": [
+      "https://www.instagram.com/qoo_jang"
+    ],
+    "description": "Jang Da Eun - Works, Based in Seoul",
+    "jobTitle": "Artist",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Independent"
+    }
+  }
+  </script>
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" type="image/png" href="./img/favicon.png" />
 </head>
 
 <body>
   <header>
-    <a href="./index.html">Jang da eun</a>
+    <a href="./index.html">Jang Daeun</a>
   </header>
   <nav>
     <a class="tab" data-tab="art">Art</a>
@@ -22,9 +59,9 @@
   <div class="page-wrapper">
     <div class="subnav" id="subnavContainer">
       <a class="subtab" data-subtab="works">Works</a>
-      <a class="subtab" data-subtab="drawing">Drawing</a>
-      <a class="subtab" data-subtab="review">Review</a>
-      <a class="subtab" data-subtab="text">Text</a>
+      <a class="subtab" data-subtab="drawings">Drawings</a>
+      <a class="subtab" data-subtab="reviews">Reviews</a>
+      <a class="subtab" data-subtab="texts">Texts</a>
     </div>
     <div class="content-area">
       <div class="content">
@@ -64,7 +101,7 @@
       if (subTab) subTab.classList.add('active');
     }
 
-    const subnavMap = { art: ['works', 'drawing'], text: ['review', 'text'] };
+    const subnavMap = { art: ['works', 'drawings'], text: ['reviews', 'texts'] };
     const allowedSubtabs = subnavMap[nav] || [];
     document.querySelectorAll('.subtab').forEach(tab => {
       const type = tab.getAttribute('data-subtab');
@@ -142,6 +179,30 @@
       });
     }
 
+    // 링크가 다운로드 대상인지 간단 판별(확장자 기준)
+    function isDownloadable(href) {
+      const exts = ['.pdf', '.zip', '.jpg', '.jpeg', '.png', '.gif', '.webp', '.txt', '.md', '.doc', '.docx', '.ppt', '.pptx', '.xls', '.xlsx'];
+      const low = href.toLowerCase();
+      return exts.some(ext => low.endsWith(ext));
+    }
+
+    // 링크 HTML 문자열 생성
+    function renderLinkHTML(link) {
+      if (!link) return '';
+      const href = link.trim();
+      const downloadAttr = isDownloadable(href) ? ' download' : '';
+      // 새 창 + 보안 속성
+      return `
+    <p style="margin-top:16px">
+      <a href="${href}" target="_blank" rel="noopener"${downloadAttr}
+         style="display:inline-block;padding:8px 0px;border:none;text-decoration:none;">
+        ${isDownloadable(href) ? 'Download file ↓' : 'Open link ↗'}
+      </a>
+    </p>
+  `;
+    }
+
+
     // ===== 렌더 =====
     function renderCarousel(images) {
       const list = (images || []).filter(Boolean); // ★ 빈 문자열 방지
@@ -166,6 +227,7 @@
       <h3>${detail.title}</h3>
       ${detail.subtitle ? `<p><strong>${detail.subtitle}</strong></p>` : ''}
       <p>${detail.body || ''}</p>
+      ${renderLinkHTML(detail.link || '')}
     `;
       if (detail.images && Array.isArray(detail.images) && detail.images.filter(src => src && src.trim() !== "").length > 0) {
         renderCarousel(detail.images);
@@ -177,6 +239,35 @@
         carouselContainer.style.height = '0px';
       }
 
+    }
+    //  상세 페이지에 작품 스키마(VisualArtwork) 넣기
+    if (detail) {
+      // ... 기존 detailText 렌더 코드
+
+      // ✅ 작품 구조화 데이터 주입
+      const toAbs = (src) => src && (src.startsWith('http')
+        ? src
+        : new URL(src, location.origin).href);
+      const images = Array.isArray(detail.images) ? detail.images.filter(Boolean) : [];
+      const ld = {
+        "@context": "https://schema.org",
+        "@type": "FineArtwork",
+        "name": detail.title,
+        "image": images.length ? images.map(toAbs) : (detail.img ? [toAbs(detail.img)] : undefined),
+        "description": (detail.subtitle ? detail.subtitle.replace(/<br\/?>/g, ' ') + ' ' : '') + (detail.body || ''),
+        "creator": { "@type": "Person", "name": "Jang Da Eun" },
+        "url": location.href
+      };
+      const s = document.createElement('script');
+      s.type = 'application/ld+json';
+      s.textContent = JSON.stringify(ld);
+      document.head.appendChild(s);
+
+      // (선택) 정규 URL을 고정
+      const link = document.createElement('link');
+      link.rel = 'canonical';
+      link.href = location.href;
+      document.head.appendChild(link);
     }
 
     // ===== 캐러셀 스크롤 → 현재 인덱스 추적 =====
@@ -227,7 +318,7 @@
       const base = isGithubPages ? './index.html' : 'index.html';
 
       const defaultSub = (nv) => nv === 'art' ? 'works'
-        : nv === 'text' ? 'review'
+        : nv === 'text' ? 'reviews'
           : null;
 
       // 탭: nav 변경 + 기본 subnav 세팅

@@ -4,14 +4,53 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jang Da Eun</title>
+  <!-- SEO 기본 -->
+  <title>장다은 Jang Daeun Works</title>
+  <meta name="description" content="장다은 작가, 작업, 서울에서 활동, Jang Daeun - Works, Based in Seoul ">
+  <meta name="keywords"
+    content="장다은, 작가, 장다은 작가, 장다은 작업, Jang Da Eun, jang daeun, jang, daeun, works, work, review, artist, portfolio, art, exhibition, contemporary art, design, text, 한예종, 한국예술종합학교, 한예종 전문사, 두산, 두산아트센터, 두산갤러리, pp, 프라이머리 프랙디스, primary practce">
+  <meta name="author" content="Jang Daeun">
+
+  <!-- Open Graph (SNS 공유 최적화) -->
+  <meta property="og:title" content="Jang Daeun">
+  <meta property="og:description" content="Works and Texts">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://jangdaeun.com/">
+  <meta property="og:image" content="https://jangdaeun.com/img/favicon.png">
+
+  <!-- Twitter 카드 -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Jang Daeun">
+  <meta name="twitter:description" content="Works and Texts">
+  <meta name="twitter:image" content="https://jangdaeun.com/img/favicon.png">
+
+  <!-- ✅ JSON-LD 구조화 데이터 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Jang Da Eun",
+    "alternateName": "장다은 작가",
+    "url": "https://jangdaeun.com",
+    "sameAs": [
+      "https://www.instagram.com/qoo_jang"
+    ],
+    "description": "Jang Da Eun - Works, Based in Seoul",
+    "jobTitle": "Artist",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Independent"
+    }
+  }
+  </script>
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" type="image/png" href="./img/favicon.png" />
 </head>
 
+
 <body>
   <header>
-    <a href="index.html">Jang da eun</a>
+    <a href="index.html">Jang Daeun</a>
   </header>
 
   <nav>
@@ -24,25 +63,25 @@
   <div class="page-wrapper">
     <div class="subnav" id="artSubnav">
       <div class="subtab active" data-subtab="works">Works</div>
-      <div class="subtab" data-subtab="drawing">Drawing</div>
+      <div class="subtab" data-subtab="drawings">Drawings</div>
     </div>
 
     <!-- subnav: TEXT -->
     <div class="subnav" id="textSubnav" style="display: none;">
-      <div class="subtab active" data-subtab="review">Review</div>
-      <div class="subtab" data-subtab="text">Text</div>
+      <div class="subtab active" data-subtab="reviews">Reviews</div>
+      <div class="subtab" data-subtab="texts">Texts</div>
     </div>
     <div class="content-area">
       <!-- Page: ART -->
       <div class="page" id="artPage">
         <div id="works" class="content-list"></div>
-        <div id="drawing" class="content-list" style="display:none"></div>
+        <div id="drawings" class="content-list" style="display:none"></div>
       </div>
 
       <!-- Page: TEXT -->
       <div class="page" id="textPage" style="display: none;">
-        <div id="review" class="content-list"></div>
-        <div id="text" class="content-list" style="display:none"></div>
+        <div id="reviews" class="content-list"></div>
+        <div id="texts" class="content-list" style="display:none"></div>
       </div>
 
       <!-- Page: CV -->
@@ -63,12 +102,12 @@
           2018&nbsp; Stet Beta, 서울과학기술대학교 미술관 다빈치관
         </p>
       </div>
-      
+
       <!-- Page: Contact -->
       <div class="page contact" id="contactPage" style="display: none;">
         <p>chezjang@gmail.com</p>
         <a href="https://www.instagram.com/qoo_jang?igsh=MTV6ZzQ1MnczaHMycQ%3D%3D&utm_source=qr" target="_blank"
-          rel="noopener noreferrer">@qoo_jang</a>
+          rel="noopener noreferrer">@qoo_jang ↗</a>
       </div>
 
     </div>
@@ -84,6 +123,31 @@
   </footer>
   <script src="data.js"></script>
   <script src="main.js"></script>
+
+  <!-- JSON-LD(구조화 데이터) 자동 생성해서 “콘텐츠 명단”을 노출 -->
+  <script>
+    (function () {
+      const items = (window.contents || [])
+        .filter(x => x && x.id && x.title && x.nav === 'art'); // 필요시 drawing/text 포함 조정
+
+      const itemList = {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Jang Da Eun Works",
+        "itemListElement": items.map((it, i) => ({
+          "@type": "ListItem",
+          "position": i + 1,
+          "url": `https://jangdaeun.com/detail.html?id=${encodeURIComponent(it.id)}&nav=${it.nav}&subnav=${it.subnav}`
+        }))
+      };
+
+      const el = document.createElement('script');
+      el.type = 'application/ld+json';
+      el.textContent = JSON.stringify(itemList);
+      document.head.appendChild(el);
+    })();
+  </script>
+
 </body>
 
 </html>

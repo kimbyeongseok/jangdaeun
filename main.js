@@ -8,9 +8,9 @@ function renderContent(nav, subnav) {
   const isText = nav === 'text';
 
   const containerIds = isArt
-    ? ['works', 'drawing']
+    ? ['works', 'drawings']
     : isText
-      ? ['review', 'text']
+      ? ['reviews', 'texts']
       : [];
 
   // 모든 콘텐츠 영역 초기화
@@ -28,12 +28,13 @@ function renderContent(nav, subnav) {
 
   container.style.display = 'grid';
   container.innerHTML = filtered.map(item => `
-  <div class="thumbnail" id="thumb-${item.id}" onclick="location.href='./detail.html?id=${item.id}&nav=${item.nav}&subnav=${item.subnav}'">
-    ${item.img ? `<img src="${item.img}" loading="lazy" alt="${item.title}" />` : ''}
-    <p>${item.title}</p>
-    ${item.subtitle ? `<h1>${item.subtitle}</h1>` : ''}
-  </div>
-`).join('');
+    <a class="thumbnail" id="thumb-${item.id}" 
+       href="./detail.html?id=${item.id}&nav=${item.nav}&subnav=${item.subnav}">
+     ${item.img ? `<img src="${item.img}" loading="lazy" alt="${item.title}" />` : ''}
+     <p>${item.title}</p>
+     ${item.subtitle ? `<h1>${item.subtitle}</h1>` : ''}
+    </a>
+  `).join('');
 
 
   // ✅ 썸네일 스크롤 복원 처리 (헤더/네비 높이만큼 보정)
@@ -90,6 +91,39 @@ function updateContentFromTabs() {
     renderContent(nav, subnav);
   }
 }
+// ✅ 스크롤 초기화: 문서/리스트 모두 맨 위로
+// ✅ iOS Safari까지 확실히 스크롤 최상단으로
+function resetScrollToTop() {
+  // 사파리의 히스토리 자동 복원 비활성화
+  try {
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  } catch { }
+
+  const hardScrollTop = () => {
+    // 문서 레벨
+    try { window.scrollTo(0, 0); } catch { }
+    try { window.scrollTo({ top: 0, left: 0, behavior: 'auto' }); } catch { }
+    // iOS가 참조하는 스크롤링 엘리먼트들 모두 초기화
+    const se = document.scrollingElement || document.documentElement;
+    try { se.scrollTop = 0; } catch { }
+    try { document.documentElement.scrollTop = 0; } catch { }
+    try { document.body.scrollTop = 0; } catch { }
+
+    // 내부 스크롤 컨테이너(있다면)도 초기화
+    document.querySelectorAll('.content-area, .content, .content-list').forEach(el => {
+      el.scrollTop = 0;
+      el.scrollLeft = 0;
+    });
+  };
+
+  // 레이아웃이 갱신된 뒤 여러 타이밍에서 재시도 (iOS 안정화)
+  requestAnimationFrame(() => {
+    hardScrollTop();           // 1차
+    setTimeout(hardScrollTop, 0);    // 2차(마이크로틱 이후)
+    setTimeout(hardScrollTop, 80);   // 3차(이미지/폰트 늦게 반영 대비)
+  });
+}
+
 
 // 초기화
 document.addEventListener('DOMContentLoaded', () => {
@@ -148,6 +182,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (firstSubtab) {
           setActiveTab(firstSubtab, '.subtab');
           renderContent(target, firstSubtab.dataset.subtab);
+          resetScrollToTop();
+        } else {
+          // (CV/Contact처럼 subnav가 없는 페이지도 초기화)
+          resetScrollToTop();
         }
       }
     });
@@ -158,10 +196,11 @@ document.addEventListener('DOMContentLoaded', () => {
     subtab.addEventListener('click', () => {
       setActiveTab(subtab, '.subtab');
       updateContentFromTabs();
+      resetScrollToTop();
     });
   });
 
-  
+
 });
 
 
