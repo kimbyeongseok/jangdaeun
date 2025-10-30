@@ -108,13 +108,22 @@ nav .active {
 .page {
   padding: 163px 24px 72px;
   background: #ECC730;
-   min-height: calc(100vh - 78px - 48px);
+  min-height: calc(100vh - 78px - 48px);
+}
+
+/* ✅ subnav가 숨겨져 있을 때 .page 전체 폭 확장 */
+body:has(#artSubnav[style*="display: none"]) .page {
+  padding: 116px 24px 72px;
 }
 
 .content {
   padding: 138px 0 0;
   background: #ECC730;
   min-height: calc(100vh - 78px - 48px);
+}
+
+body:has(#subnavContainer[style*="display: none"]) .content {
+  padding: 87px 0 0;
 }
 
 .content .back-btn {
@@ -391,8 +400,12 @@ footer .btm {
     z-index: 11;
   }
 
-  body:has(#cvPage[style*="display: block"]) .content-area,
-  body:has(#contactPage[style*="display: block"]) .content-area {
+  /* ✅ subnav가 숨겨져 있을 때 .page 전체 폭 확장 */
+  body:has(#artSubnav[style*="display: none"]) .page {
+    padding: 36px 28px 80px;
+  }
+
+  body:has(#artSubnav[style*="display: none"]) .content-area {
     margin: 0 28px 0 28px !important;
     width: calc(100% - 56px);
     /* 좌우 28px씩 빼고 꽉 차게 */
@@ -417,6 +430,10 @@ footer .btm {
     padding: 48px 28px 16px;
   }
 
+  body:has(#subnavContainer[style*="display: none"]) .content {
+    padding: 48px 28px 16px;
+  }
+
   .page-wrapper {
     display: flex;
     align-items: flex-start;
@@ -434,6 +451,12 @@ footer .btm {
   }
 
   /*********** 상세화면 *************/
+
+  body:has(#subnavContainer[style*="display: none"]) .content-area {
+    width: calc(100% - 56px);
+    margin: 0 28px 0 28px;
+  }
+
   .detail {
     display: flex;
     flex-direction: column;
@@ -489,8 +512,5 @@ footer .btm {
   }
 
   /*********** CV, Contact *************/
-  #cvPage,
-  #contactPage {
-    padding: 36px 28px 80px;
-  }
+
 }

@@ -308,44 +308,72 @@
       });
     }
 
+    // ✅ 콘텐츠가 1개뿐인 nav에서는 back 버튼 숨김 (visibility 유지)
+    if (detail) {
+      const sameNavItems = contents.filter(i => i.nav === detail.nav);
+      if (sameNavItems.length === 1) {
+        const backBtn = document.querySelector('.back-btn');
+        if (backBtn) {
+          backBtn.style.display = 'none';
+          backBtn.style.pointerEvents = 'none';
+        }
+      }
+    }
 
-    // ===== 상단 탭 네비 (기존 동일) =====
-    (function wireTabs() {
-      const params = new URLSearchParams(window.location.search);
-      const currentNav = params.get('nav') || 'art';
 
-      const isGithubPages = window.location.pathname.includes('/jangdaeun/');
-      const base = isGithubPages ? './index.html' : 'index.html';
 
-      const defaultSub = (nv) => nv === 'art' ? 'works'
-        : nv === 'text' ? 'reviews'
-          : null;
+    (function () {
+      const items = (window && window.contents) ? window.contents : [];
+      const $ = s => document.querySelector(s);
+      const cap = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : '';
+      const uniq = a => [...new Set(a)];
 
-      // 탭: nav 변경 + 기본 subnav 세팅
-      document.querySelectorAll('.tab').forEach(el => {
-        el.addEventListener('click', (e) => {
-          e.preventDefault(); // ← 기본 앵커 이동 차단
-          const nv = el.dataset.tab;
+      const navEl = document.querySelector('nav');
+      const subEl =
+        document.getElementById('subnavContainer') ||
+        document.getElementById('artSubnav') ||
+        document.getElementById('textSubnav');
 
-          // CV/Contact 등 별도 섹션도 index.html로 통일해서 이동
-          let href = `${base}?nav=${encodeURIComponent(nv)}`;
-          const sub = defaultSub(nv);
-          if (sub) href += `&subnav=${encodeURIComponent(sub)}`;
+      const url = new URL(location.href);
+      const idParam = url.searchParams.get('id');
+      let navParam = url.searchParams.get('nav');
+      let subParam = url.searchParams.get('subnav') || '';
 
-          window.location.assign(href);
-        });
-      });
+      const current = items.find(i => String(i.id) === String(idParam));
+      if (!navParam && current) navParam = current.nav || '';
+      if (!subParam && current) subParam = current.subnav || '';
 
-      // 서브탭: 현재 nav 유지 + subnav만 변경
-      document.querySelectorAll('.subtab').forEach(el => {
-        el.addEventListener('click', (e) => {
-          e.preventDefault();
-          const nv = currentNav || 'art';
-          const sv = el.dataset.subtab || defaultSub(nv) || 'works';
-          const href = `${base}?nav=${encodeURIComponent(nv)}&subnav=${encodeURIComponent(sv)}`;
-          window.location.assign(href);
-        });
-      });
+      const navs = uniq(items.map(i => i.nav).filter(Boolean));
+
+      // ✅ 모든 탭을 index.html로 이동하는 링크로 생성
+      navEl.innerHTML =
+        navs.map(n => `
+      <a class="tab ${n === navParam ? 'active' : ''}"
+         href="./index.html?nav=${encodeURIComponent(n)}">
+        ${cap(n)}
+      </a>
+    `).join('') +
+        `
+      <a class="tab ${navParam === 'cv' ? 'active' : ''}" href="./index.html?nav=cv">CV</a>
+      <a class="tab ${navParam === 'contact' ? 'active' : ''}" href="./index.html?nav=contact">Contact</a>
+    `;
+
+      // ✅ subnav도 index.html 링크로 이동
+      if (subEl) {
+        const subs = uniq(items.filter(i => i.nav === navParam && i.subnav).map(i => i.subnav));
+        if (subs.length) {
+          subEl.style.display = 'flex';
+          subEl.innerHTML = subs.map(s => `
+        <a class="subtab ${s === subParam ? 'active' : ''}"
+           href="./index.html?nav=${encodeURIComponent(navParam)}&subnav=${encodeURIComponent(s)}">
+          ${cap(s)}
+        </a>
+      `).join('');
+        } else {
+          subEl.style.display = 'none';
+          subEl.innerHTML = '';
+        }
+      }
     })();
   </script>
 
