@@ -202,6 +202,7 @@ body:has(#subnavContainer[style*="display: none"]) .content {
   height: 400px;
   scroll-behavior: smooth;
   width: max-content;
+  touch-action: pan-x pan-y;
 }
 
 .carousel-track img {
