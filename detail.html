@@ -191,16 +191,22 @@
       if (!link) return '';
       const href = link.trim();
       const downloadAttr = isDownloadable(href) ? ' download' : '';
-      // 새 창 + 보안 속성
+
+      const icon = isDownloadable(href)
+        ? '<img src="img/icon/ic_download.svg" alt="Download" class="icon-btn" />'
+        : '<img src="img/icon/ic_outlink.svg" alt="Open link" class="icon-btn" />';
+
       return `
     <p style="margin-top:16px">
       <a href="${href}" target="_blank" rel="noopener"${downloadAttr}
-         style="display:inline-block;padding:8px 0px;border:none;text-decoration:none;">
-        ${isDownloadable(href) ? 'Download file ↓' : 'Open link ↗'}
+         style="display:inline-flex;align-items:center;gap:6px;text-decoration:none;">
+        <span>${isDownloadable(href) ? 'Download file' : 'Open link'}</span>
+         ${icon}
       </a>
     </p>
   `;
     }
+
 
 
     // ===== 렌더 =====
