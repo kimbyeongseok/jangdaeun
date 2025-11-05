@@ -72,7 +72,7 @@
           <div class="slider" id="previewSlider"></div>
           <div id="detailText"></div>
         </div>
-        <div class="back-btn">&lt; Show all</div>
+        <div class="back-btn"></div>
       </div>
     </div>
   </div>
@@ -177,6 +177,8 @@
       requestAnimationFrame(() => {
         carouselContainer.style.scrollSnapType = prevSnap || 'x mandatory';
       });
+
+      if (e.scale && e.scale !== 1) return; // 핀치 중이면 줌 허용
     }
 
     // 링크가 다운로드 대상인지 간단 판별(확장자 기준)
