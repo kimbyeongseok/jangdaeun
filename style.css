@@ -203,6 +203,18 @@ body:has(#subnavContainer[style*="display: none"]) .content {
   scroll-behavior: smooth;
   width: max-content;
   touch-action: pan-x pan-y;
+
+}
+
+/* 핀치 중에만 켜지는 투명 오버레이 */
+.pinch-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: transparent;
+  /* 브라우저 제스처 허용 */
+  touch-action: pinch-zoom;
+  /* 지원 안 하는 브라우저는 무시됨 */
 }
 
 .carousel-track img {

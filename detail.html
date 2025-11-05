@@ -178,7 +178,7 @@
         carouselContainer.style.scrollSnapType = prevSnap || 'x mandatory';
       });
 
-      if (e.scale && e.scale !== 1) return; // 핀치 중이면 줌 허용
+
     }
 
     // 링크가 다운로드 대상인지 간단 판별(확장자 기준)
@@ -383,6 +383,49 @@
         }
       }
     })();
+
+    let isPinching = false;
+    let pinchOverlay = null;
+
+    function ensurePinchOverlay() {
+      if (!pinchOverlay) {
+        pinchOverlay = document.createElement('div');
+        pinchOverlay.className = 'pinch-overlay';
+        // 핀치 중에는 어떤 터치도 아래로 내려가지 않게 함 (슬라이드 차단)
+        pinchOverlay.addEventListener('touchmove', () => { }, { passive: true });
+      }
+      return pinchOverlay;
+    }
+
+    const container = document.querySelector('.carousel-container');
+    const track = document.querySelector('.carousel-track');
+
+    // 두 손가락 터치 시작 → 오버레이 ON
+    container.addEventListener('touchstart', (e) => {
+      if (e.touches && e.touches.length >= 2) {
+        isPinching = true;
+        const ov = ensurePinchOverlay();
+        if (!document.body.contains(ov)) document.body.appendChild(ov);
+      }
+    }, { passive: true });
+
+    // 핀치 끝(손가락 1개 이하) → 오버레이 OFF
+    container.addEventListener('touchend', (e) => {
+      if (!e.touches || e.touches.length < 2) {
+        isPinching = false;
+        if (pinchOverlay && document.body.contains(pinchOverlay)) {
+          document.body.removeChild(pinchOverlay);
+        }
+      }
+    }, { passive: true });
+
+    container.addEventListener('touchcancel', () => {
+      isPinching = false;
+      if (pinchOverlay && document.body.contains(pinchOverlay)) {
+        document.body.removeChild(pinchOverlay);
+      }
+    }, { passive: true });
+
   </script>
 
 </body>
