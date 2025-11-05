@@ -189,6 +189,7 @@ body:has(#subnavContainer[style*="display: none"]) .content {
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
+  touch-action: pan-x pan-y;
   scrollbar-width: none;
   /* Firefox */
   -ms-overflow-style: none;
@@ -201,6 +202,7 @@ body:has(#subnavContainer[style*="display: none"]) .content {
   height: 400px;
   scroll-behavior: smooth;
   width: max-content;
+  touch-action: pan-x pan-y;
 }
 
 .carousel-track img {
@@ -209,21 +211,7 @@ body:has(#subnavContainer[style*="display: none"]) .content {
   scroll-snap-align: start;
   object-fit: contain;
   max-height: 70vh;
-}
-
-.carousel-container,
-.carousel-track,
-.carousel-track img {
   touch-action: pan-x pan-y;
-  -ms-touch-action: pan-x pan-y;
-  /* IE fallback */
-}
-
-@supports (-webkit-overflow-scrolling: touch) {
-  .carousel-container {
-    overflow: visible !important;
-    /* iOS pinch 허용 */
-  }
 }
 
 .slider {
