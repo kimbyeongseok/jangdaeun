@@ -1,6 +1,10 @@
 /*********** 공통 *************/
 * {
   box-sizing: border-box;
+  white-space: normal;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  line-break: strict;
 }
 
 a {
@@ -203,7 +207,7 @@ body:has(#subnavContainer[style*="display: none"]) .content {
   scroll-behavior: smooth;
   width: max-content;
   touch-action: pan-x pan-y;
- 
+
 }
 
 .carousel-track img {
@@ -312,10 +316,38 @@ footer .btm {
   padding: 120px 24px 72px;
 }
 
+.cv_title {
+  margin: 13px 0 -12px 0;
+}
+
+
 #cvPage h1 {
   font-size: 13px;
   color: #00000060;
   margin-top: 24px;
+  margin-bottom: 4px;
+}
+
+.cv_detail {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cv_detail p {
+  margin: 2px 0 0 0;
+}
+
+.cv_detail p:first-child {
+  flex: 0 0 36px;
+  /* 연도 폭 고정 */
+}
+
+.cv_detail p:last-child {
+  flex: 1;
+  white-space: normal;
+  word-wrap: break-word;
 }
 
 #cvPage,

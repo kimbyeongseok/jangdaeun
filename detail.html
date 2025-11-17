@@ -4,14 +4,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=5.0" />
-  <title>장다은 Jang Daeun Works</title>
+  <title>JANG Daeun 장다은</title>
   <meta name="description" content="장다은 작가, 작업, 서울에서 활동, Jang Daeun - Works, Based in Seoul ">
   <meta name="keywords"
     content="장다은, 작가, 장다은 작가, 장다은 작업, Jang Da Eun, jang daeun, jang, daeun, works, work, review, artist, portfolio, art, exhibition, contemporary art, design, text, 한예종, 한국예술종합학교, 한예종 전문사, 두산, 두산아트센터, 두산갤러리, pp, 프라이머리 프랙디스, primary practce">
-  <meta name="author" content="Jang Daeun">
+  <meta name="author" content="JANG Daeun">
 
   <!-- Open Graph (SNS 공유 최적화) -->
-  <meta property="og:title" content="Jang Daeun">
+  <meta property="og:title" content="JANG Daeun">
   <meta property="og:description" content="Works and Texts">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://jangdaeun.com/">
@@ -19,7 +19,7 @@
 
   <!-- Twitter 카드 -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Jang Daeun">
+  <meta name="twitter:title" content="JANG Daeun">
   <meta name="twitter:description" content="Works and Texts">
   <meta name="twitter:image" content="https://jangdaeun.com/img/favicon.png">
 
@@ -28,13 +28,13 @@
   {
     "@context": "https://schema.org",
     "@type": "Person",
-    "name": "Jang Da Eun",
+    "name": "JANG Daeun",
     "alternateName": "장다은 작가",
     "url": "https://jangdaeun.com",
     "sameAs": [
       "https://www.instagram.com/qoo_jang"
     ],
-    "description": "Jang Da Eun - Works, Based in Seoul",
+    "description": "JANG Daeun - Works, Based in Seoul",
     "jobTitle": "Artist",
     "worksFor": {
       "@type": "Organization",
@@ -48,11 +48,11 @@
 
 <body>
   <header>
-    <a href="./index.html">Jang Daeun</a>
+    <a href="./index.html">JANG Daeun</a>
   </header>
   <nav>
     <a class="tab" data-tab="art">Art</a>
-    <a class="tab" data-tab="text">Text</a>
+    <a class="tab" data-tab="text">Texts</a>
     <a class="tab" data-tab="cv" href="./index.html?nav=cv">CV</a>
     <a class="tab" data-tab="contact" href="./index.html?nav=contact">Contact</a>
   </nav>
@@ -79,7 +79,7 @@
 
   <footer>
     <div class="top"></div>
-    <div class="btm">© 2026 Jang Daeun - All Rights Reserved</div>
+    <div class="btm">© 2026 JANG Daeun - All Rights Reserved</div>
   </footer>
   <script src="./data.js"></script>
   <script type="module">
@@ -263,7 +263,7 @@
         "name": detail.title,
         "image": images.length ? images.map(toAbs) : (detail.img ? [toAbs(detail.img)] : undefined),
         "description": (detail.subtitle ? detail.subtitle.replace(/<br\/?>/g, ' ') + ' ' : '') + (detail.body || ''),
-        "creator": { "@type": "Person", "name": "Jang Da Eun" },
+        "creator": { "@type": "Person", "name": "JANG Daeun" },
         "url": location.href
       };
       const s = document.createElement('script');
@@ -299,8 +299,9 @@
 
     // ===== Back 버튼 (기존 동일) =====
     const backBtn = document.querySelector('.back-btn');
-    if (backBtn && nav && subnav && id) {
-      backBtn.innerHTML = `&lt; Show all ${subnav}`;
+    if (backBtn && nav && id) {
+      const label = subnav ? subnav : nav;
+      backBtn.innerHTML = `&lt; Show all ${label}`;
       backBtn.addEventListener('click', (e) => {
         e.preventDefault();
         localStorage.setItem('scrollToId', id);
@@ -308,9 +309,10 @@
         const isGithubPages = window.location.pathname.includes('/jangdaeun/');
         const base = isGithubPages ? './index.html' : 'index.html';
 
-        const href = `${base}?nav=${encodeURIComponent(nav || 'art')}`
-          + `&subnav=${encodeURIComponent(subnav || 'works')}`
-          + `&id=${encodeURIComponent(id)}`;
+        // ✅ subnav가 없을 경우 nav로만 이동
+        const href = subnav
+          ? `${base}?nav=${encodeURIComponent(nav)}&subnav=${encodeURIComponent(subnav)}`
+          : `${base}?nav=${encodeURIComponent(nav)}`;
 
         window.location.assign(href);
       });
