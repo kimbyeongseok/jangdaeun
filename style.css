@@ -25,7 +25,8 @@ h1 {
 }
 
 body {
-  font-family: 'Lucida Grande', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic",
+    "Noto Sans KR", sans-serif;
   margin: 0;
   background: #FFEFAF;
   min-height: 100vh;
@@ -43,13 +44,14 @@ nav,
 header {
   top: 0;
   height: 57px;
-  padding: 10px 24px 15px;
+  padding: 12px 24px 13px;
   background: #FFEFAF;
+  display: flex;
+  align-items: center;
 }
 
-header a {
-  font-size: 24px;
-  font-weight: 600;
+header a img {
+  height: 22px;
 }
 
 nav {
@@ -390,8 +392,8 @@ footer .btm {
     margin: 0px auto;
   }
 
-  header a {
-    font-size: 28px;
+  header a img {
+    height: 26px;
   }
 
 
