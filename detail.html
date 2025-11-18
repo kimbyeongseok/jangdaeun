@@ -75,6 +75,7 @@
           <div id="detailText"></div>
         </div>
         <div class="back-btn"></div>
+        
       </div>
     </div>
   </div>
@@ -303,7 +304,7 @@
     const backBtn = document.querySelector('.back-btn');
     if (backBtn && nav && id) {
       const label = subnav ? subnav : nav;
-      backBtn.innerHTML = `&lt; Show all ${label}`;
+      backBtn.innerHTML = `<img src="img/icon/ic_back.svg" alt=""> Show all ${label}`;
       backBtn.addEventListener('click', (e) => {
         e.preventDefault();
         localStorage.setItem('scrollToId', id);

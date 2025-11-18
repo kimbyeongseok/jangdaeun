@@ -25,7 +25,7 @@ h1 {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic",
+  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", 'Pretendard Variable', Pretendard, "Malgun Gothic",
     "Noto Sans KR", sans-serif;
   margin: 0;
   background: #FFEFAF;
@@ -138,7 +138,10 @@ body:has(#subnavContainer[style*="display: none"]) .content {
   font-weight: 400;
   color: #111;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
 }
+
 
 .content-list {
   display: grid;
@@ -318,6 +321,20 @@ footer .btm {
   padding: 120px 24px 72px;
 }
 
+.cv_text {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.kr,
+.en {
+  width: 100%;
+}
+
+.cv_text .kr {
+  padding-bottom: 56px;
+}
+
 .cv_title {
   margin: 13px 0 -12px 0;
 }
@@ -488,6 +505,16 @@ footer .btm {
     height: auto;
     max-height: 360px;
     object-fit: cover;
+  }
+
+  .kr,
+  .en {
+    width: 50%;
+  }
+
+  .cv_text .kr {
+    padding-bottom: 0;
+    padding-right: 48px;
   }
 
   /*********** 상세화면 *************/
