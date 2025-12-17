@@ -23,7 +23,9 @@ h1 {
   line-height: inherit;
   /* 부모 line-height 상속 */
 }
-
+html{
+  background: #ECC730;
+}
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", 'Pretendard Variable', Pretendard, "Malgun Gothic",
     "Noto Sans KR", sans-serif;
@@ -43,8 +45,8 @@ nav,
 
 header {
   top: 0;
-  height: 57px;
-  padding: 12px 24px 13px;
+  height: 52px;
+  padding: 12px 24px 8px;
   background: #FFEFAF;
   display: flex;
   align-items: center;
@@ -55,7 +57,7 @@ header a img {
 }
 
 nav {
-  top: 57px;
+  top: 52px;
   display: flex;
   gap: 0.7rem;
   padding: 0px 24px;
@@ -78,7 +80,7 @@ nav .active {
 }
 
 .subnav {
-  top: 86px;
+  top: 81px;
   display: flex;
   gap: 1rem;
   padding: 1rem 24px 1.3rem;
@@ -112,7 +114,7 @@ nav .active {
 
 /*********** 메인 *************/
 .page {
-  padding: 163px 24px 72px;
+  padding: 158px 24px 72px;
   background: #ECC730;
   min-height: calc(100vh - 78px - 48px);
 }
@@ -123,13 +125,13 @@ body:has(#artSubnav[style*="display: none"]) .page {
 }
 
 .content {
-  padding: 138px 0 0;
+  padding: 134px 0 0;
   background: #ECC730;
   min-height: calc(100vh - 78px - 48px);
 }
 
 body:has(#subnavContainer[style*="display: none"]) .content {
-  padding: 87px 0 0;
+  padding: 83px 0 0;
 }
 
 .content .back-btn {
@@ -261,7 +263,7 @@ body:has(#subnavContainer[style*="display: none"]) .content {
 }
 
 .slider img.active {
-  border: 1px solid #fff;
+  border: 2px solid #fff;
   /* ✅ 선택된 항목 효과 */
 }
 
@@ -293,7 +295,7 @@ body:has(#subnavContainer[style*="display: none"]) .content {
 
 .detail p {
   padding: 0px 24px 16px;
-  line-height: 1.6;
+  line-height: 1.7;
   font-size: 13px;
   font-weight: 400;
   margin-block-start: 0;
@@ -310,15 +312,15 @@ footer .btm {
   background: #fdf1b6;
   text-align: left;
   font-size: 12px;
-  padding: 0 24px;
+  padding: 0 24px 14px;
   color: #8b8b8b;
-  margin: 52px 0 14px;
+  margin: 52px 0 0;
 }
 
 /*********** CV, Contact *************/
 #cvPage,
 #contactPage {
-  padding: 120px 24px 72px;
+  padding: 115px 24px 72px;
 }
 
 .cv_text {
@@ -459,7 +461,7 @@ footer .btm {
 
   /* ✅ subnav가 숨겨져 있을 때 .page 전체 폭 확장 */
   body:has(#artSubnav[style*="display: none"]) .page {
-    padding: 36px 28px 80px;
+    padding: 48px 28px 80px;
   }
 
   body:has(#artSubnav[style*="display: none"]) .content-area {
