@@ -23,9 +23,11 @@ h1 {
   line-height: inherit;
   /* 부모 line-height 상속 */
 }
-html{
+
+html {
   background: #ECC730;
 }
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", 'Pretendard Variable', Pretendard, "Malgun Gothic",
     "Noto Sans KR", sans-serif;
@@ -34,6 +36,42 @@ body {
   min-height: 100vh;
 }
 
+/*********** 공지 *************/
+.cover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #FFEFAF;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  z-index: 2000 !important;
+}
+.cover p{
+  font-size: 15px;
+  font-weight: 300;
+  text-align: center;
+  line-height: 20px;
+  color: #8b8b8b;
+}
+.cover a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  margin-top: 200px;
+}
+.cover a span{
+  font-size: 15px;
+  font-weight: 300;
+  text-align: center;
+  line-height: 20px;
+}
+/*********** 공지 *************/
 header,
 nav,
 .subnav {
