@@ -26,6 +26,10 @@ h1 {
 
 html {
   background: #ECC730;
+  /*********** 공지 *************/
+  overflow: hidden;
+  height: 100%;
+  /*********** 공지 *************/
 }
 
 body {
